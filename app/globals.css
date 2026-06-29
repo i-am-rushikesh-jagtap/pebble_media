@@ -87,14 +87,15 @@ html.lenis {
   outline: none;
 }
 
-/* Glass deepens when user scrolls - enhanced depth */
+/* Glass deepens when user scrolls - professional depth */
 .apple-nav--scrolled {
-  background: rgba(5, 5, 8, 0.72);
-  backdrop-filter: blur(40px) saturate(220%) brightness(0.92);
-  -webkit-backdrop-filter: blur(40px) saturate(220%) brightness(0.92);
+  background: rgba(3, 3, 6, 0.78);
+  backdrop-filter: blur(48px) saturate(200%) brightness(0.88);
+  -webkit-backdrop-filter: blur(48px) saturate(200%) brightness(0.88);
   box-shadow:
-    0 1px 0 0 rgba(255, 255, 255, 0.03),
-    0 8px 32px -8px rgba(0, 0, 0, 0.4);
+    0 1px 0 0 rgba(255, 255, 255, 0.05),
+    0 8px 32px -8px rgba(0, 0, 0, 0.5),
+    0 2px 8px -2px rgba(0, 0, 0, 0.3);
 }
 
 /* Organic noise texture on the glass surface */
@@ -113,20 +114,20 @@ html.lenis {
   opacity: 0.05;
 }
 
-/* Bottom separator line â€” only on scroll */
+/* Bottom separator line â€” refined professional edge */
 .apple-nav-sep {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 1px;
-  /* Light bleed from glass bottom edge, not a border */
+  /* Subtle professional separator */
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.08) 20%,
-    rgba(255, 255, 255, 0.12) 50%,
-    rgba(255, 255, 255, 0.08) 80%,
+    rgba(255, 255, 255, 0.06) 25%,
+    rgba(255, 255, 255, 0.09) 50%,
+    rgba(255, 255, 255, 0.06) 75%,
     transparent 100%
   );
   pointer-events: none;
@@ -190,11 +191,11 @@ html.lenis {
   transform: scale(1.05) translateY(0px);
 }
 
-/* â”€â”€ Center links â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* â”€â”€ Center links - professional spacing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .apple-nav-links {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   position: relative;
 }
 
@@ -203,9 +204,9 @@ html.lenis {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 16px;
+  padding: 8px 18px;
   text-decoration: none;
-  border-radius: 999px;
+  border-radius: 10px;
   white-space: nowrap;
   /* No transition on the link itself â€” child elements handle motion */
 }
@@ -214,71 +215,66 @@ html.lenis {
   position: relative;
   z-index: 2;
   font-size: 0.875rem;
-  font-weight: 460;
-  letter-spacing: 0.005em;
-  color: rgba(255, 255, 255, 0.58);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
-              text-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: rgba(255, 255, 255, 0.65);
+  transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .apple-nav-link:hover .apple-nav-link-label {
-  color: rgba(255, 255, 255, 0.98);
-  text-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.95);
 }
 .apple-nav-link--active .apple-nav-link-label {
   color: rgba(255, 255, 255, 1);
-  text-shadow: 0 2px 12px rgba(253, 103, 50, 0.3);
+  font-weight: 550;
 }
 
-/* â”€â”€ The SwiftUI liquid glass capsule (Framer layoutId) â”€â”€â”€ */
+/* â”€â”€ The SwiftUI liquid glass capsule - professional refined â”€â”€â”€ */
 .apple-pill {
   position: absolute;
   inset: 0;
-  border-radius: 999px;
+  border-radius: 10px;
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
 
   /*
-   * Enhanced four-layer glass material:
-   * 1. Deep ambient blur from backdrop-filter
-   * 2. Subtle frosted tint layer
-   * 3. Inner light refraction edges
-   * 4. Depth shadow for separation
+   * Subtle professional glass material:
+   * 1. Minimal background for elegance
+   * 2. Sophisticated blur effect
+   * 3. Clean edge definition
+   * 4. Refined depth shadows
    */
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.12) 0%,
-    rgba(255, 255, 255, 0.06) 50%,
-    rgba(255, 255, 255, 0.08) 100%
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%
   );
-  backdrop-filter: blur(24px) saturate(200%) brightness(1.05);
-  -webkit-backdrop-filter: blur(24px) saturate(200%) brightness(1.05);
+  backdrop-filter: blur(20px) saturate(150%) brightness(1.08);
+  -webkit-backdrop-filter: blur(20px) saturate(150%) brightness(1.08);
 
-  /* Enhanced multi-layer depth shadows — pure glass, no borders */
+  /* Professional refined shadows — subtle depth */
   box-shadow:
-    0 4px 20px -4px rgba(0, 0, 0, 0.5),
-    0 2px 8px -2px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25), /* top edge glass catch */
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2),       /* bottom interior shadow */
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08); /* subtle inner rim glow */
+    0 2px 12px -2px rgba(0, 0, 0, 0.35),
+    0 1px 4px -1px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
-/* Dynamic specular glare that tracks mouse inside the capsule - enhanced */
+/* Dynamic specular glare - subtle professional shine */
 .apple-pill-glare {
   position: absolute;
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   background: radial-gradient(
     circle at 40% 35%,
-    rgba(255, 255, 255, 0.35) 0%,
-    rgba(253, 103, 50, 0.08) 30%,
-    rgba(255, 255, 255, 0) 70%
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.08) 40%,
+    rgba(255, 255, 255, 0) 75%
   );
-  mix-blend-mode: overlay;
-  opacity: 0.8;
-  filter: blur(8px);
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
+  filter: blur(10px);
   pointer-events: none;
 }
 
@@ -290,59 +286,63 @@ html.lenis {
   flex-shrink: 0;
 }
 
-/* CTA button - enhanced Apple style */
-.apple-cta-btn {
+/* Professional contact link - refined minimalist style */
+.apple-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 0.875rem;
-  font-weight: 540;
-  color: #000000;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.98) 0%,
-    rgba(245, 245, 245, 0.95) 100%
-  );
-  border: none;
-  cursor: pointer;
-  padding: 9px 24px;
-  border-radius: 999px;
-  letter-spacing: -0.01em;
-  box-shadow:
-    0 2px 16px -3px rgba(0, 0, 0, 0.45),
-    0 1px 4px -1px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
 }
-.apple-cta-btn::before {
+
+.apple-contact-link::before {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    transparent 60%
+    rgba(253, 103, 50, 0.15) 0%,
+    transparent 70%
   );
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.3s ease;
 }
-.apple-cta-btn:hover {
-  background: linear-gradient(
-    180deg,
-    #ffffff 0%,
-    rgba(250, 250, 250, 1) 100%
-  );
-  transform: translateY(-1.5px);
+
+.apple-contact-link .contact-icon {
+  font-size: 1rem;
+  filter: grayscale(0.3);
+  transition: filter 0.3s ease;
+}
+
+.apple-contact-link:hover {
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(253, 103, 50, 0.25);
   box-shadow:
-    0 4px 24px -4px rgba(0, 0, 0, 0.5),
-    0 2px 8px -2px rgba(0, 0, 0, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+    0 4px 20px -4px rgba(253, 103, 50, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
 }
-.apple-cta-btn:hover::before {
+
+.apple-contact-link:hover::before {
   opacity: 1;
 }
-.apple-cta-btn:active {
+
+.apple-contact-link:hover .contact-icon {
+  filter: grayscale(0);
+}
+
+.apple-contact-link:active {
   transform: translateY(0px);
 }
 

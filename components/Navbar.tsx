@@ -114,9 +114,12 @@ export default function Navbar() {
             </div>
           </LayoutGroup>
 
-          {/* ── Desktop right: CTA ── */}
+          {/* ── Desktop right: Professional contact link ── */}
           <div className="apple-nav-actions">
-            <button className="apple-cta-btn">Let&apos;s Talk</button>
+            <Link href="#contact" className="apple-contact-link">
+              <span className="contact-icon">✉</span>
+              <span>Contact</span>
+            </Link>
           </div>
 
           {/* ── Mobile hamburger ── */}
