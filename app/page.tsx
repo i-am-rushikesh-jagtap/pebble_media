@@ -2,6 +2,7 @@
 
 import ImageSequenceCanvas from "@/components/ImageSequenceCanvas";
 import ServicesSection from "@/components/ServicesSection";
+import VideoPortfolioSection from "@/components/VideoPortfolioSection";
 import PortfolioSection from "@/components/PortfolioSection";
 import ClientsSection from "@/components/ClientsSection";
 import ProcessSection from "@/components/ProcessSection";
@@ -33,6 +34,9 @@ export default function Home() {
 
       {/* SERVICES SECTION */}
       <ServicesSection />
+
+      {/* VIDEO PORTFOLIO SECTION */}
+      <VideoPortfolioSection />
 
       {/* PORTFOLIO SECTION */}
       <PortfolioSection />
