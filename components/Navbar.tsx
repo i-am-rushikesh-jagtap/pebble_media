@@ -12,12 +12,12 @@ if (typeof window !== "undefined") {
 
 const navItems = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "#services" },
-  { name: "Work", href: "#work" },
-  { name: "Case Studies", href: "#case-studies" },
-  { name: "About", href: "#about" },
-  { name: "Blog", href: "#blog" },
-  { name: "Contact", href: "#contact" },
+  { name: "Services", href: "/services" },
+  { name: "Work", href: "/work" },
+  { name: "Case Studies", href: "/case-studies" },
+  { name: "About", href: "/about" },
+  { name: "Blog", href: "/blog" },
+  { name: "Contact", href: "/contact" },
 ];
 
 const SPRING = { type: "spring", stiffness: 400, damping: 30, mass: 0.6 } as const;
@@ -116,7 +116,7 @@ export default function Navbar() {
 
           {/* ── Desktop right: Professional contact link ── */}
           <div className="apple-nav-actions">
-            <Link href="#contact" className="apple-contact-link">
+            <Link href="/contact" className="apple-contact-link">
               <span className="contact-icon">✉</span>
               <span>Contact</span>
             </Link>
