@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Cinzel } from "next/font/google";
 import "./globals.css";
 import "./sections.css";
+import "./home.css";
+import "./about.css";
+import "./work.css";
 import SmoothScroll from "@/components/SmoothScroll";
-import Navbar from "@/components/Navbar";
+import LiquidGlassNav from "@/components/LiquidGlassNav";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   weight: ["300", "400", "500", "600"],
+});
+
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  variable: "--font-cinzel",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
@@ -23,8 +32,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable}`}>
-        <Navbar />
+      <body className={`${inter.variable} ${cinzel.variable}`}>
+        <LiquidGlassNav />
         <SmoothScroll>
           {children}
         </SmoothScroll>

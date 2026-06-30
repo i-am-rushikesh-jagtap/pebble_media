@@ -1,184 +1,175 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
+import "./Navbar.css";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+/**
+ * MODERN RESPONSIVE NAVIGATION
+ * Clean glassmorphism design with smooth animations
+ */
 
 const navItems = [
   { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
   { name: "Services", href: "/services" },
   { name: "Work", href: "/work" },
   { name: "Case Studies", href: "/case-studies" },
-  { name: "About", href: "/about" },
+  { name: "Testimonials", href: "/testimonials" },
   { name: "Blog", href: "/blog" },
   { name: "Contact", href: "/contact" },
 ];
 
-const SPRING = { type: "spring", stiffness: 400, damping: 30, mass: 0.6 } as const;
+const SPRING = { type: "spring", stiffness: 300, damping: 30 } as const;
 
 export default function Navbar() {
-  const navRef = useRef<HTMLElement>(null);
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  const [activeItem, setActiveItem] = useState("Home");
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Track scroll to deepen the glass when scrolled
+  // Scroll detection
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-
-  const handleLinkMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
-  };
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   return (
     <>
-      {/* ─── Full-width top navigation bar ─── */}
-      <nav
-        ref={navRef}
-        aria-label="Main Navigation"
-        role="navigation"
-        className={`apple-nav${scrolled ? " apple-nav--scrolled" : ""}`}
+      {/* ─── MODERN NAVIGATION BAR ─── */}
+      <motion.nav
+        className={`modern-nav ${scrolled ? 'modern-nav--scrolled' : ''}`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Inner content wrapper with max-width constraint */}
-        <div className="apple-nav-inner">
-
+        <div className="modern-nav-container">
           {/* Logo */}
-          <div className="apple-nav-logo">
-            <Link href="/" aria-label="Pebble Media — Home">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/pebble-logo.png"
-                alt="Pebble Media"
-                className="apple-nav-logo-img"
-              />
-            </Link>
-          </div>
+          <Link href="/" className="modern-nav-logo" aria-label="Pebble Media">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/pebble-logo.png"
+              alt="Pebble Media"
+              width={140}
+              height={40}
+            />
+          </Link>
 
-          {/* ── Desktop center links ── */}
-          <LayoutGroup>
-            <div
-              className="apple-nav-links"
-              onMouseLeave={() => setHoveredItem(null)}
-              role="menubar"
-              aria-label="Primary Navigation"
-            >
-              {navItems.map((item) => (
+          {/* Desktop Navigation */}
+          <div className="modern-nav-links">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+
+              return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  role="menuitem"
-                  className={`apple-nav-link${activeItem === item.name ? " apple-nav-link--active" : ""}`}
-                  aria-current={activeItem === item.name ? "page" : undefined}
-                  onMouseEnter={() => setHoveredItem(item.name)}
-                  onMouseMove={handleLinkMouseMove}
-                  onClick={() => setActiveItem(item.name)}
+                  className={`modern-nav-link ${isActive ? 'modern-nav-link--active' : ''}`}
                 >
-                  {/* SwiftUI matchedGeometryEffect — the morphing glass capsule */}
-                  <AnimatePresence>
-                    {hoveredItem === item.name && (
-                      <motion.span
-                        layoutId="apple-pill"
-                        className="apple-pill"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={SPRING}
-                        aria-hidden="true"
-                      >
-                        {/* Dynamic specular glare tracking mouse */}
-                        <motion.span
-                          className="apple-pill-glare"
-                          animate={{ x: mousePos.x - 36, y: mousePos.y - 36 }}
-                          transition={{ type: "tween", duration: 0 }}
-                          aria-hidden="true"
-                        />
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                  <span className="apple-nav-link-label">{item.name}</span>
+                  {item.name}
+                  {isActive && (
+                    <motion.div
+                      className="modern-nav-indicator"
+                      layoutId="activeIndicator"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
                 </Link>
-              ))}
-            </div>
-          </LayoutGroup>
-
-          {/* ── Desktop right: Professional contact link ── */}
-          <div className="apple-nav-actions">
-            <Link href="/contact" className="apple-contact-link">
-              <span className="contact-icon">✉</span>
-              <span>Contact</span>
-            </Link>
+              );
+            })}
           </div>
 
-          {/* ── Mobile hamburger ── */}
+          {/* Mobile Hamburger */}
           <button
-            className="apple-hamburger"
-            onClick={() => setIsMobileMenuOpen((v) => !v)}
+            className="modern-nav-hamburger"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
           >
-            <motion.span className="apple-hline" animate={isMobileMenuOpen ? { y: 6, rotate: 45 } : { y: 0, rotate: 0 }} transition={SPRING} />
-            <motion.span className="apple-hline" animate={isMobileMenuOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }} transition={SPRING} />
-            <motion.span className="apple-hline" animate={isMobileMenuOpen ? { y: -6, rotate: -45 } : { y: 0, rotate: 0 }} transition={SPRING} />
+            <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`} />
+            <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`} />
+            <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`} />
           </button>
+        </div>
+      </motion.nav>
 
-        </div>{/* /inner */}
-
-        {/* Separator line that appears on scroll */}
-        <motion.div
-          className="apple-nav-sep"
-          animate={{ opacity: scrolled ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          aria-hidden="true"
-        />
-      </nav>
-
-      {/* ─── Mobile dropdown panel ─── */}
+      {/* ─── Mobile Menu ─── */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            id="mobile-nav-panel"
-            role="dialog"
-            aria-modal="false"
-            aria-label="Mobile Navigation"
-            className="apple-mobile-panel"
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={SPRING}
-          >
-            <nav aria-label="Mobile Links">
-              {navItems.map((item, i) => (
-                <motion.div
-                  key={item.name}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ ...SPRING, delay: i * 0.03 }}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="modern-nav-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+
+            {/* Mobile Panel */}
+            <motion.div
+              className="modern-nav-mobile"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              <div className="modern-nav-mobile-header">
+                <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/pebble-logo.png"
+                    alt="Pebble Media"
+                    width={120}
+                    height={35}
+                  />
+                </Link>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="modern-nav-close"
+                  aria-label="Close menu"
                 >
-                  <Link
-                    href={item.href}
-                    className={`apple-mobile-link${activeItem === item.name ? " apple-mobile-link--active" : ""}`}
-                    aria-current={activeItem === item.name ? "page" : undefined}
-                    onClick={() => { setActiveItem(item.name); setIsMobileMenuOpen(false); }}
-                  >
-                    {item.name}
-                  </Link>
-                </motion.div>
-              ))}
-            </nav>
-          </motion.div>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <nav className="modern-nav-mobile-links">
+                {navItems.map((item, i) => {
+                  const isActive = pathname === item.href;
+
+                  return (
+                    <motion.div
+                      key={item.name}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                    >
+                      <Link
+                        href={item.href}
+                        className={`modern-nav-mobile-link ${isActive ? 'active' : ''}`}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.name}
+                        {isActive && <span className="active-dot" />}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
+              </nav>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
