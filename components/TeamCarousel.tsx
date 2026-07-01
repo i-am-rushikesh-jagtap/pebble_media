@@ -257,18 +257,36 @@ export default function TeamCarousel() {
     [applyRotation]
   );
 
+  const syncEngineAngleFromRing = useCallback(() => {
+    if (!ringRef.current || !engineRef.current) return;
+    const angle = gsap.getProperty(ringRef.current, "rotateY") as number;
+    engineRef.current.setAngle(angle);
+    return angle;
+  }, []);
+
   const beginNavSpin = useCallback(() => {
     if (!ringRef.current) return;
     isSpinningRef.current = true;
     setIsSpinning(true);
     resetGlowParallax();
-    engineRef.current?.setAngle(gsap.getProperty(ringRef.current, "rotateY") as number);
-  }, [resetGlowParallax]);
+    syncEngineAngleFromRing();
+  }, [resetGlowParallax, syncEngineAngleFromRing]);
+
+  const syncNavTargetFromAngle = useCallback((angle: number) => {
+    const idx = dominantSlotIndex(angle, ANGLE_STEP, COUNT);
+    navTargetIndexRef.current = idx;
+    return idx;
+  }, []);
 
   const runStepNavigation = useCallback(
     (direction: 1 | -1) => {
       const engine = engineRef.current;
       if (!engine || !ringRef.current || isDraggingRef.current) return;
+
+      if (!engine.isRunning) {
+        const angle = syncEngineAngleFromRing();
+        if (angle !== undefined) syncNavTargetFromAngle(angle);
+      }
 
       if (prefersReducedMotion.current) {
         const next = wrapIndex(navTargetIndexRef.current + direction, COUNT);
@@ -281,7 +299,7 @@ export default function TeamCarousel() {
       beginNavSpin();
       engine.requestNavStep(direction);
     },
-    [beginNavSpin]
+    [beginNavSpin, syncEngineAngleFromRing, syncNavTargetFromAngle]
   );
 
   const runGoToSlide = useCallback(
@@ -289,6 +307,11 @@ export default function TeamCarousel() {
       const engine = engineRef.current;
       if (!engine || !ringRef.current || isDraggingRef.current) return;
       if (index < 0 || index >= COUNT) return;
+
+      if (!engine.isRunning) {
+        const angle = syncEngineAngleFromRing();
+        if (angle !== undefined) syncNavTargetFromAngle(angle);
+      }
 
       if (prefersReducedMotion.current) {
         navTargetIndexRef.current = index;
@@ -302,7 +325,7 @@ export default function TeamCarousel() {
       beginNavSpin();
       engine.retargetToIndex(index);
     },
-    [beginNavSpin]
+    [beginNavSpin, syncEngineAngleFromRing, syncNavTargetFromAngle]
   );
 
   const clearNavPress = useCallback(() => {
@@ -312,6 +335,7 @@ export default function TeamCarousel() {
   const handleNavPointerDown = useCallback(
     (direction: "prev" | "next", e: React.PointerEvent<HTMLButtonElement>) => {
       if (e.button !== 0) return;
+      e.stopPropagation();
       setNavPress(direction);
       skipNavClickRef.current = true;
       if (direction === "prev") runStepNavigation(-1);
@@ -446,6 +470,7 @@ export default function TeamCarousel() {
     didDragRef.current = false;
     dragStartX.current = e.clientX;
     dragStartAngle.current = gsap.getProperty(ringRef.current, "rotateY") as number;
+    syncNavTargetFromAngle(dragStartAngle.current);
     velocityTracker.current.reset();
     velocityTracker.current.push(e.clientX);
     engineRef.current?.setAngle(dragStartAngle.current);

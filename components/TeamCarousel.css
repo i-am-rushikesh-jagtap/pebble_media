@@ -9,7 +9,7 @@
   --orbit-perspective: clamp(900px, 120vw, 1400px);
   position: relative;
   width: 100%;
-  max-width: 920px;
+  max-width: min(920px, 100%);
   margin: 0 auto;
   padding: 0.5rem 0 1rem;
   user-select: none;
@@ -69,6 +69,8 @@
 .team-orbit__nav {
   flex-shrink: 0;
   position: relative;
+  z-index: 12;
+  pointer-events: auto;
   width: clamp(44px, 6vw, 54px);
   height: clamp(44px, 6vw, 54px);
   min-width: 44px;
@@ -331,7 +333,6 @@
   flex-direction: column;
   align-items: center;
   gap: 0.45rem;
-  overflow: hidden;
 }
 
 .team-orbit__copy {
@@ -370,9 +371,9 @@
   letter-spacing: 0.14em;
   margin: 0;
   max-width: 100%;
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .team-orbit__sr-only {
@@ -457,10 +458,6 @@
 }
 
 @media (max-width: 767px) {
-  .team-orbit__hint {
-    display: none;
-  }
-
   .team-orbit__meta {
     margin-top: 1rem;
     min-height: 3.5rem;
@@ -606,11 +603,16 @@
     padding: 0 clamp(0.25rem, 2vw, 0.5rem);
   }
 
+  .team-orbit__scene {
+    width: min(100%, calc(var(--orbit-radius) * 2 + var(--orbit-card)));
+    max-width: calc(100% - 5.75rem);
+    margin: 0 auto;
+  }
+
   .team-orbit__nav {
     position: absolute;
     top: 50%;
     translate: 0 -50%;
-    z-index: 12;
   }
 
   .team-orbit__nav--prev {

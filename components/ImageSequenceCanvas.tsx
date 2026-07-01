@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import { ensureGsapPlugins, gsap, ScrollTrigger } from "@/lib/gsap";
+import { HERO_PIN_SCROLL_END, HERO_PIN_SCRUB } from "@/lib/hero-sequence";
 
 interface ImageSequenceCanvasProps {
   frameCount: number;
@@ -143,8 +144,8 @@ export default function ImageSequenceCanvas({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: "+=400%",
-          scrub: 0.5,
+          end: HERO_PIN_SCROLL_END,
+          scrub: HERO_PIN_SCRUB,
           pin: true,
         },
       }).to(obj, {
