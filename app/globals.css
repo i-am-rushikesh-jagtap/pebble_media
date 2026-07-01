@@ -6,9 +6,11 @@
   --brand-color: #FD6732;
   --brand-color-secondary: #EDE7CF;
   --brand-color-dark: #171717;
+  --brand-color-white: #FFFFFF;
   --brand-color-dim: rgba(253, 103, 50, 0.2);
   --font-inter: var(--font-inter);
   --font-cinzel: var(--font-cinzel);
+  --font-montserrat: var(--font-montserrat);
 
   /* Premium grain background - adjust intensity here */
   --grain-opacity: 0.06;
