@@ -88,17 +88,6 @@ export default function Home() {
           <p className="text-tagline" style={{ marginTop: '2rem', animation: "fadeInUp 1.6s ease-out" }}>
             We help brands get <em className="tagline-emphasis">remembered</em>, not just seen.
           </p>
-          <div className="hero-cta" style={{ marginTop: '3rem', animation: "fadeInUp 2s ease-out" }}>
-            <Link href="/work" className="btn-primary">
-              <span>Explore Our Work</span>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-            <Link href="/contact" className="btn-secondary">
-              <span>Start a Project</span>
-            </Link>
-          </div>
         </div>
       </ImageSequenceCanvas>
 
