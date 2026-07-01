@@ -218,7 +218,9 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <TeamCarousel />
+          <div className="team-carousel-main-container">
+            <TeamCarousel />
+          </div>
         </div>
       </section>
 

@@ -6,6 +6,8 @@
 .about-page {
   background: transparent;
   color: #ffffff;
+  position: relative;
+  z-index: 1;
 }
 
 /* ABOUT HERO */
@@ -428,6 +430,12 @@
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.team-carousel-main-container {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
 }
 
 .team-grid {

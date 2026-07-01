@@ -19,6 +19,7 @@ const navItems = [
 
 export default function PebbleNav() {
   const pathname = usePathname();
+  const isAboutPage = pathname === "/about";
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -62,17 +63,19 @@ export default function PebbleNav() {
             <img src="/pebble-logo.png" alt="Pebble Media" width={140} height={40} />
           </Link>
 
-          <button
-            className="pebble-nav__menu-btn"
-            onClick={() => setIsOpen(true)}
-            aria-label="Open menu"
-          >
-            <span className="pebble-nav__menu-text">Menu</span>
-            <div className="pebble-nav__menu-lines">
-              <span />
-              <span />
-            </div>
-          </button>
+          {!isAboutPage && (
+            <button
+              className="pebble-nav__menu-btn"
+              onClick={() => setIsOpen(true)}
+              aria-label="Open menu"
+            >
+              <span className="pebble-nav__menu-text">Menu</span>
+              <div className="pebble-nav__menu-lines">
+                <span />
+                <span />
+              </div>
+            </button>
+          )}
         </div>
       </motion.nav>
 
