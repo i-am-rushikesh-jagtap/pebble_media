@@ -1,925 +1,678 @@
 /* ═══════════════════════════════════════════════════════════════
-   PEBBLE-THEMED TEAM CAROUSEL
-   Organic shapes · Smooth animations · Modern aesthetics
+   TEAM ORBIT — 3D cylindrical carousel (CSS 3D + GSAP)
+   Pebble-shaped portraits on a rotating ring · brand orange glow
    ═══════════════════════════════════════════════════════════════ */
 
-.team-pebble-carousel {
+.team-orbit {
+  --orbit-card: clamp(140px, 22vw, 200px);
+  --orbit-radius: clamp(200px, 32vw, 300px);
+  --orbit-perspective: clamp(900px, 120vw, 1400px);
   position: relative;
   width: 100%;
-  min-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  overflow-x: hidden;
-  overflow-y: visible;
-  isolation: isolate;
-  z-index: 1;
-}
-
-.pebble-container {
-  position: relative;
-  width: 100%;
-  max-width: 1400px;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: 2rem;
-  align-items: center;
-  z-index: 10;
+  max-width: 920px;
   margin: 0 auto;
-  pointer-events: auto;
-}
-
-/* ─── Main Featured Card ─────────────────────────────────────── */
-
-.pebble-featured {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  height: 600px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  touch-action: pan-y;
+  padding: 0.5rem 0 1rem;
   user-select: none;
-  z-index: 5;
-  pointer-events: auto;
-  overflow: visible;
+  -webkit-user-select: none;
 }
 
-.pebble-card-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  perspective: 2000px;
-  transform-style: preserve-3d;
-  overflow: visible;
-}
-
-.pebble-card {
+/* Ambient atmosphere */
+.team-orbit__halo {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  transition:
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.5s ease;
-  opacity: 0;
-  pointer-events: none;
-  will-change: transform, opacity;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  filter: blur(0px);
-}
-
-.pebble-card.active {
-  transform: translateX(0) translateZ(0) scale(1) rotateY(0deg);
-  opacity: 1;
-  z-index: 10;
-  pointer-events: auto;
-  transition-delay: 0s;
-  filter: blur(0px);
-}
-
-.pebble-card.prev {
-  transform: translateX(-40%) translateZ(-200px) scale(0.85) rotateY(25deg);
-  opacity: 0.4;
-  z-index: 5;
-  filter: blur(1px) brightness(0.7);
-}
-
-.pebble-card.next {
-  transform: translateX(40%) translateZ(-200px) scale(0.85) rotateY(-25deg);
-  opacity: 0.4;
-  z-index: 5;
-  filter: blur(1px) brightness(0.7);
-}
-
-.pebble-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 45% 55% 52% 48% / 48% 45% 55% 52%;
-  overflow: hidden;
-  background: linear-gradient(
-    145deg,
-    rgba(15, 15, 15, 0.95) 0%,
-    rgba(25, 25, 25, 0.98) 100%
-  );
-  box-shadow:
-    0 30px 90px rgba(0, 0, 0, 0.6),
-    inset 0 0 100px rgba(0, 0, 0, 0.3);
-  animation: pebbleMorph 8s ease-in-out infinite;
-  will-change: box-shadow;
-  transform: translateZ(0);
-  transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes pebbleMorph {
-  0%, 100% {
-    border-radius: 45% 55% 52% 48% / 48% 45% 55% 52%;
-  }
-  25% {
-    border-radius: 52% 48% 45% 55% / 55% 52% 48% 45%;
-  }
-  50% {
-    border-radius: 48% 52% 55% 45% / 45% 55% 52% 48%;
-  }
-  75% {
-    border-radius: 55% 45% 48% 52% / 52% 48% 45% 55%;
-  }
-}
-
-.pebble-card.active .pebble-card-inner {
-  box-shadow:
-    0 40px 120px rgba(253, 103, 50, 0.4),
-    inset 0 0 120px rgba(253, 103, 50, 0.1);
-  animation: pebbleMorph 8s ease-in-out infinite, pebbleGlow 2s ease-in-out infinite;
-  transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.pebble-card.prev .pebble-card-inner,
-.pebble-card.next .pebble-card-inner {
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.7),
-    inset 0 0 100px rgba(0, 0, 0, 0.5);
-  animation: pebbleMorph 8s ease-in-out infinite;
-}
-
-@keyframes pebbleGlow {
-  0%, 100% {
-    box-shadow:
-      0 40px 120px rgba(253, 103, 50, 0.4),
-      inset 0 0 120px rgba(253, 103, 50, 0.1);
-  }
-  50% {
-    box-shadow:
-      0 45px 130px rgba(253, 103, 50, 0.5),
-      inset 0 0 120px rgba(253, 103, 50, 0.12);
-  }
-}
-
-.pebble-image {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-/* Vignette effect overlay */
-.pebble-image::before {
-  content: "";
-  position: absolute;
-  inset: 0;
+  top: 8%;
+  left: 50%;
+  width: min(520px, 90%);
+  height: min(320px, 50vw);
+  transform: translateX(-50%);
   background: radial-gradient(
     ellipse at center,
-    transparent 0%,
-    transparent 30%,
-    rgba(0, 0, 0, 0.2) 60%,
-    rgba(0, 0, 0, 0.5) 100%
+    rgba(253, 103, 50, 0.14) 0%,
+    rgba(253, 103, 50, 0.04) 45%,
+    transparent 72%
   );
-  z-index: 2;
   pointer-events: none;
-  transition: all 0.6s ease;
+  z-index: 0;
+  filter: blur(8px);
 }
 
-/* Colored vignette for active card */
-.pebble-card.active .pebble-image::before {
-  background:
-    radial-gradient(
-      ellipse at center,
-      transparent 0%,
-      transparent 35%,
-      rgba(253, 103, 50, 0.08) 60%,
-      rgba(253, 103, 50, 0.15) 75%,
-      rgba(0, 0, 0, 0.4) 100%
-    );
-}
-
-/* Stronger vignette for inactive cards */
-.pebble-card.prev .pebble-image::before,
-.pebble-card.next .pebble-image::before {
-  background: radial-gradient(
-    ellipse at center,
-    transparent 0%,
-    transparent 25%,
-    rgba(0, 0, 0, 0.3) 55%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
-}
-
-/* Additional gradient overlay for depth */
-.pebble-image::after {
-  content: "";
+.team-orbit__track {
   position: absolute;
-  inset: 0;
+  top: 52%;
+  left: 50%;
+  width: min(640px, 95%);
+  height: 2px;
+  transform: translateX(-50%);
   background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) 50%,
-    rgba(0, 0, 0, 0.2) 100%
+    90deg,
+    transparent 0%,
+    rgba(253, 103, 50, 0.35) 20%,
+    rgba(253, 103, 50, 0.5) 50%,
+    rgba(253, 103, 50, 0.35) 80%,
+    transparent 100%
   );
-  z-index: 2;
-  pointer-events: none;
   opacity: 0.5;
-  transition: opacity 0.6s ease;
-}
-
-.pebble-card.active .pebble-image::after {
-  opacity: 0.3;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) 60%,
-    rgba(253, 103, 50, 0.1) 100%
-  );
-}
-
-.pebble-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
-  transform: scale(1.02);
-  position: relative;
-  z-index: 1;
-}
-
-.pebble-card.active .pebble-image img {
-  transform: scale(1.06);
-}
-
-/* Shine overlay */
-.pebble-shine {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.6s;
-}
-
-.pebble-card.active .pebble-shine {
-  animation: shine 8s ease-in-out infinite;
-}
-
-@keyframes shine {
-  0%, 100% {
-    opacity: 0;
-    transform: translateX(-100%) translateY(-100%);
-  }
-  50% {
-    opacity: 1;
-    transform: translateX(100%) translateY(100%);
-  }
-}
-
-/* Ripple effect */
-.pebble-ripple {
-  position: absolute;
-  inset: -20%;
-  background: radial-gradient(
-    circle at center,
-    rgba(253, 103, 50, 0.15) 0%,
-    transparent 70%
-  );
-  opacity: 0;
-  transform: scale(0.8);
   pointer-events: none;
+  z-index: 0;
 }
 
-.pebble-card.active .pebble-ripple {
-  animation: ripple 3s ease-in-out infinite;
-}
-
-@keyframes ripple {
-  0%, 100% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-}
-
-/* ─── Navigation Arrows ──────────────────────────────────────── */
-
-.pebble-nav {
+/* Controls row: prev | 3D scene | next */
+.team-orbit__controls {
   position: relative;
-  width: 70px;
-  height: 70px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.25rem, 2vw, 1.5rem);
+  width: 100%;
+}
+
+.team-orbit__nav {
+  flex-shrink: 0;
+  position: relative;
+  width: clamp(44px, 6vw, 54px);
+  height: clamp(44px, 6vw, 54px);
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
   border-radius: 50%;
-  background: linear-gradient(
-    135deg,
-    rgba(253, 103, 50, 0.15) 0%,
-    rgba(253, 103, 50, 0.08) 100%
-  );
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 2px solid rgba(253, 103, 50, 0.25);
+  border: 1px solid rgba(253, 103, 50, 0.3);
+  background: rgba(253, 103, 50, 0.08);
   color: #FD6732;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 100;
-  flex-shrink: 0;
-  box-shadow:
-    0 8px 32px rgba(253, 103, 50, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   outline: none;
-  pointer-events: auto;
-  user-select: none;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-.pebble-nav:hover {
-  background: linear-gradient(
-    135deg,
-    rgba(253, 103, 50, 0.25) 0%,
-    rgba(253, 103, 50, 0.15) 100%
-  );
-  border-color: rgba(253, 103, 50, 0.4);
-  transform: scale(1.08);
-  box-shadow:
-    0 12px 48px rgba(253, 103, 50, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-}
-
-.pebble-nav:active {
-  transform: scale(0.95);
-  background: linear-gradient(
-    135deg,
-    rgba(253, 103, 50, 0.3) 0%,
-    rgba(253, 103, 50, 0.2) 100%
-  );
-}
-
-.pebble-nav svg {
-  filter: drop-shadow(0 2px 8px rgba(253, 103, 50, 0.4));
-  transition: transform 0.3s ease;
+.team-orbit__nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
 }
 
-.pebble-nav:hover svg {
-  transform: scale(1.1);
+@media (hover: hover) and (pointer: fine) {
+  .team-orbit__nav:hover {
+    background: rgba(253, 103, 50, 0.18);
+    border-color: rgba(253, 103, 50, 0.5);
+  }
+
+  .team-orbit__nav:hover .team-orbit__nav-inner {
+    transform: scale(1.08);
+  }
 }
 
-.pebble-nav-prev {
-  grid-column: 1;
+.team-orbit__nav:active .team-orbit__nav-inner,
+.team-orbit__nav.is-pressed .team-orbit__nav-inner {
+  transform: scale(0.88);
 }
 
-.pebble-nav-next {
-  grid-column: 3;
+.team-orbit__nav.is-pressed {
+  background: rgba(253, 103, 50, 0.22);
+  border-color: rgba(253, 103, 50, 0.55);
 }
 
-/* ─── Member Information ─────────────────────────────────────── */
+.team-orbit__nav:focus-visible {
+  outline: 2px solid rgba(253, 103, 50, 0.85);
+  outline-offset: 3px;
+}
 
-.pebble-info {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  align-items: center;
-  text-align: center;
-  margin-top: 4rem;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-  pointer-events: auto;
-  z-index: 10;
+.team-orbit__nav:disabled {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* 3D scene */
+.team-orbit__scene {
   position: relative;
+  flex: 0 1 auto;
+  width: min(100%, calc(var(--orbit-radius) * 2 + var(--orbit-card)));
+  height: calc(var(--orbit-card) + 2.5rem);
+  cursor: grab;
+  touch-action: none;
+  --glow-intensity: 1;
 }
 
-.pebble-info-content {
-  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+.team-orbit__scene.is-dragging {
+  cursor: grabbing;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.team-orbit__scene.is-dragging .team-orbit__item,
+.team-orbit__scene.is-spinning .team-orbit__item {
+  transition: none;
 }
 
-.pebble-name {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.2;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.02em;
+.team-orbit__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--orbit-card) * 1.5);
+  height: calc(var(--orbit-card) * 1.5);
+  margin: calc(var(--orbit-card) * -0.75) 0 0 calc(var(--orbit-card) * -0.75);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(253, 103, 50, calc(0.18 + 0.3 * var(--glow-intensity, 1))) 0%,
+    transparent 68%
+  );
+  filter: blur(24px);
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform, opacity;
+  transform-origin: center center;
+  opacity: calc(0.4 + 0.6 * var(--glow-intensity, 1));
 }
 
-.pebble-role {
-  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-  color: rgba(255, 255, 255, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
-
-.pebble-superpower {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.8);
-  padding: 1rem 1.5rem;
-  background: rgba(253, 103, 50, 0.08);
-  border-radius: 50px;
-  border: 1px solid rgba(253, 103, 50, 0.15);
-  backdrop-filter: blur(10px);
-}
-
-.pebble-icon {
-  font-size: 1.3rem;
-  animation: sparkle 2s ease-in-out infinite;
-}
-
-@keyframes sparkle {
-  0%, 100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2) rotate(10deg);
-    opacity: 0.8;
-  }
-}
-
-/* ─── Pebble Dots Navigation ─────────────────────────────────── */
-
-.pebble-dots {
+.team-orbit__perspective {
+  position: absolute;
+  inset: 0;
   display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.02);
-  border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
+  align-items: center;
+  justify-content: center;
+  perspective: var(--orbit-perspective);
+  perspective-origin: 50% 42%;
+  z-index: 1;
 }
 
-.pebble-dot {
+.team-orbit__ring {
   position: relative;
-  width: 16px;
-  height: 16px;
-  padding: 0;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: auto;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  outline: none;
+  width: var(--orbit-card);
+  height: var(--orbit-card);
+  transform-style: preserve-3d;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
-.pebble-dot-inner {
+.team-orbit__item {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--item-angle)) translateZ(var(--orbit-radius)) translateZ(0.1px);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  --frontness: 0;
+  filter: brightness(calc(0.46 + 0.54 * var(--frontness)))
+    saturate(calc(0.82 + 0.18 * var(--frontness)));
+  opacity: calc(0.5 + 0.5 * var(--frontness));
+}
+
+.team-orbit__scene:not(.is-spinning):not(.is-dragging) .team-orbit__item {
+  transition:
+    filter 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.team-orbit__item.is-active {
+  z-index: 2;
+}
+
+.team-orbit__pebble {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  background: rgba(253, 103, 50, 0.25);
-  border: 1px solid rgba(253, 103, 50, 0.3);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.pebble-dot:hover .pebble-dot-inner {
-  background: rgba(253, 103, 50, 0.5);
-  border-color: rgba(253, 103, 50, 0.5);
-  transform: scale(1.15);
-  box-shadow: 0 4px 12px rgba(253, 103, 50, 0.3);
-}
-
-.pebble-dot.active {
-  width: 44px;
-  border-radius: 20px;
-}
-
-.pebble-dot.active .pebble-dot-inner {
-  border-radius: 20px;
-  background: linear-gradient(90deg, #FD6732 0%, #FF8A5B 100%);
-  border-color: rgba(253, 103, 50, 0.6);
+.team-orbit__pebble-surface {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 46% 54% 50% 50% / 50% 46% 54% 50%;
+  background: #111;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   box-shadow:
-    0 4px 16px rgba(253, 103, 50, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    0 20px 50px rgba(0, 0, 0, calc(0.55 - 0.12 * var(--frontness, 0))),
+    0 0 0 calc(2px * var(--frontness, 0)) rgba(253, 103, 50, calc(0.3 * var(--frontness, 0))),
+    0 calc(30px * var(--frontness, 0)) calc(72px * var(--frontness, 0))
+      rgba(253, 103, 50, calc(0.42 * var(--frontness, 0))),
+    inset 0 0 calc(52px * var(--frontness, 0)) rgba(253, 103, 50, calc(0.1 * var(--frontness, 0)));
+  animation: orbitPebbleMorph 10s ease-in-out infinite;
 }
 
-/* ─── Progress Indicator ─────────────────────────────────────── */
-
-.pebble-progress {
-  position: absolute;
-  bottom: -2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.5);
-  text-align: center;
-  letter-spacing: 0.05em;
+.team-orbit__scene:not(.is-spinning):not(.is-dragging) .team-orbit__pebble-surface {
+  transition: box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ─── Decorative Floating Pebbles ────────────────────────────── */
+@keyframes orbitPebbleMorph {
+  0%, 100% { border-radius: 46% 54% 50% 50% / 50% 46% 54% 50%; }
+  50% { border-radius: 50% 50% 46% 54% / 54% 50% 50% 46%; }
+}
 
-.pebble-decorations {
+.team-orbit__photo-fallback {
   position: absolute;
   inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-cinzel), serif;
+  font-size: clamp(2rem, 8vw, 3rem);
+  font-weight: 500;
+  color: rgba(253, 103, 50, 0.85);
+  background: linear-gradient(145deg, #1a1a1a 0%, #111 100%);
+  pointer-events: none;
+}
+
+.team-orbit__photo {
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.team-orbit__pebble-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, calc(0.04 + 0.14 * var(--frontness, 0))) 0%,
+    transparent 42%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+  opacity: calc(0.35 + 0.65 * var(--frontness, 0));
+}
+
+.team-orbit__item.is-active .team-orbit__pebble-shine {
+  animation: orbitShine 6s ease-in-out infinite;
+}
+
+@keyframes orbitShine {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.team-orbit__floor {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: calc(var(--orbit-card) * (1.2 + 0.5 * var(--glow-intensity, 1)));
+  height: calc(var(--orbit-card) * (0.22 + 0.18 * var(--glow-intensity, 1)));
+  margin-left: calc(var(--orbit-card) * (-0.6 - 0.25 * var(--glow-intensity, 1)));
+  background: radial-gradient(
+    ellipse at center,
+    rgba(253, 103, 50, calc(0.1 + 0.18 * var(--glow-intensity, 1))) 0%,
+    rgba(253, 103, 50, calc(0.03 + 0.05 * var(--glow-intensity, 1))) 45%,
+    transparent 72%
+  );
+  transform: rotateX(72deg);
+  transform-origin: center top;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.3;
+  filter: blur(4px);
 }
 
-.floating-pebble {
+/* Meta — name/role synced with front portrait */
+.team-orbit__meta {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  margin-top: 1.25rem;
+  min-height: 3.75rem;
+  width: 100%;
+  max-width: min(100%, 36rem);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 clamp(0.75rem, 4vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  overflow: hidden;
+}
+
+.team-orbit__copy {
+  width: 100%;
+  transition:
+    opacity 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.team-orbit__meta.is-swapping .team-orbit__copy {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+.team-orbit__name {
+  font-family: var(--font-cinzel), serif;
+  font-size: clamp(1.25rem, 3.5vw, 2rem);
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0 0 0.35rem;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+.team-orbit__role {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: clamp(0.65rem, 1.8vw, 0.8125rem);
+  font-weight: 500;
+  color: #EDE7CF;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.team-orbit__sr-only {
   position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Dots */
+.team-orbit__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.team-orbit__dot {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.team-orbit__dot-fill {
+  display: block;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(253, 103, 50, 0.15) 0%,
-    rgba(253, 103, 50, 0.05) 100%
-  );
-  filter: blur(40px);
+  background: rgba(253, 103, 50, 0.28);
+  border: 1px solid rgba(253, 103, 50, 0.35);
+  transition:
+    width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.22s ease,
+    border-color 0.22s ease,
+    border-radius 0.3s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
 }
 
-.pebble-1 {
-  width: 200px;
-  height: 200px;
-  top: 10%;
-  right: 10%;
-  animation: float1 8s ease-in-out infinite;
+.team-orbit__dot:active .team-orbit__dot-fill {
+  transform: scale(0.88);
 }
 
-.pebble-2 {
-  width: 150px;
-  height: 150px;
-  bottom: 15%;
-  left: 5%;
-  animation: float2 10s ease-in-out infinite;
-}
-
-.pebble-3 {
-  width: 120px;
-  height: 120px;
-  top: 60%;
-  right: 20%;
-  animation: float3 12s ease-in-out infinite;
-}
-
-@keyframes float1 {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-30px, -40px);
+@media (hover: hover) and (pointer: fine) {
+  .team-orbit__dot:hover .team-orbit__dot-fill {
+    background: rgba(253, 103, 50, 0.5);
+    transform: scale(1.12);
   }
 }
 
-@keyframes float2 {
-  0%, 100% {
-    transform: translate(0, 0);
+.team-orbit__dot.is-active .team-orbit__dot-fill {
+  width: 28px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #FD6732, #FF8A5B);
+  box-shadow: 0 2px 10px rgba(253, 103, 50, 0.4);
+}
+
+.team-orbit__hint {
+  margin: 0.75rem 0 0;
+  text-align: center;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.28);
+}
+
+@media (max-width: 767px) {
+  .team-orbit__hint {
+    display: none;
   }
-  50% {
-    transform: translate(40px, 30px);
+
+  .team-orbit__meta {
+    margin-top: 1rem;
+    min-height: 3.5rem;
   }
 }
 
-@keyframes float3 {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-20px, 50px);
-  }
-}
+/* ─── Responsive ─────────────────────────────────────────────── */
 
-/* ─── Responsive Design ──────────────────────────────────────── */
-
-@media (max-width: 1200px) {
-  .pebble-container {
-    max-width: 900px;
-    gap: 1.5rem;
+@media (min-width: 1024px) {
+  .team-orbit {
+    --orbit-card: clamp(220px, 22vw, 280px);
+    --orbit-radius: clamp(320px, 30vw, 400px);
+    --orbit-perspective: 1600px;
+    max-width: 1120px;
+    padding: 1.25rem 0 1.75rem;
   }
 
-  .pebble-featured {
-    max-width: 500px;
-    height: 500px;
+  .team-orbit__halo {
+    width: min(780px, 92%);
+    height: min(480px, 42vw);
+    top: 4%;
   }
 
-  .pebble-nav {
-    width: 60px;
-    height: 60px;
+  .team-orbit__track {
+    width: min(900px, 98%);
+    top: 54%;
+    height: 2px;
+    opacity: 0.6;
   }
 
-  .pebble-nav svg {
-    width: 22px;
-    height: 22px;
+  .team-orbit__controls {
+    gap: clamp(1rem, 3vw, 2.5rem);
   }
 
-  .pebble-card.prev {
-    transform: translateX(-35%) translateZ(-150px) scale(0.82) rotateY(20deg);
+  .team-orbit__nav {
+    width: 62px;
+    height: 62px;
   }
 
-  .pebble-card.next {
-    transform: translateX(35%) translateZ(-150px) scale(0.82) rotateY(-20deg);
-  }
-}
-
-@media (max-width: 1024px) {
-  .pebble-container {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 0 1rem;
+  .team-orbit__nav svg {
+    width: 26px;
+    height: 26px;
   }
 
-  .pebble-featured {
-    max-width: 500px;
-    height: 500px;
-    grid-column: 1;
+  .team-orbit__scene {
+    height: calc(var(--orbit-card) + 3rem);
   }
 
-  .pebble-info {
-    margin-top: 3rem;
+  .team-orbit__glow {
+    filter: blur(32px);
   }
 
-  .pebble-dots {
-    justify-content: center;
+  .team-orbit__meta {
+    margin-top: 1.75rem;
+    min-height: 4.25rem;
+    gap: 0.5rem;
   }
 
-  /* Position arrows absolutely on smaller screens */
-  .pebble-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 56px;
-    height: 56px;
-    z-index: 100;
-    pointer-events: auto;
+  .team-orbit__name {
+    font-size: clamp(1.75rem, 2.8vw, 2.75rem);
+    margin-bottom: 0.5rem;
   }
 
-  .pebble-nav:hover {
-    transform: translateY(-50%) scale(1.08);
+  .team-orbit__role {
+    font-size: clamp(0.75rem, 1.2vw, 0.9375rem);
   }
 
-  .pebble-nav:active {
-    transform: translateY(-50%) scale(0.95);
-  }
-
-  .pebble-nav-prev {
-    left: -15px;
-    grid-column: auto;
-  }
-
-  .pebble-nav-next {
-    right: -15px;
-    grid-column: auto;
-  }
-
-  .pebble-container {
-    position: relative;
-  }
-}
-
-@media (max-width: 768px) {
-  .team-pebble-carousel {
-    padding: 2rem 1rem;
-    min-height: auto;
-  }
-
-  .pebble-container {
-    padding: 0 3rem;
-  }
-
-  .pebble-featured {
-    max-width: 420px;
-    height: 420px;
-  }
-
-  .pebble-card-wrapper {
-    perspective: 1500px;
-  }
-
-  .pebble-card.prev {
-    transform: translateX(-30%) translateZ(-120px) scale(0.75) rotateY(18deg);
-    opacity: 0.35;
-  }
-
-  .pebble-card.next {
-    transform: translateX(30%) translateZ(-120px) scale(0.75) rotateY(-18deg);
-    opacity: 0.35;
-  }
-
-  .pebble-nav {
-    width: 50px;
-    height: 50px;
-    z-index: 100;
-    pointer-events: auto;
-  }
-
-  .pebble-nav svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .pebble-nav-prev {
-    left: 5px;
-  }
-
-  .pebble-nav-next {
-    right: 5px;
-  }
-
-  .pebble-info {
-    margin-top: 2rem;
-    gap: 2rem;
-  }
-
-  .pebble-name {
-    font-size: 2rem;
-  }
-
-  .pebble-role {
-    font-size: 1rem;
-  }
-
-  .pebble-superpower {
-    font-size: 1rem;
-    padding: 0.875rem 1.25rem;
-  }
-
-  .pebble-dots {
+  .team-orbit__dots {
+    margin-top: 1.35rem;
     gap: 10px;
   }
-}
 
-@media (max-width: 640px) {
-  .team-pebble-carousel {
-    padding: 2rem 0.5rem;
-  }
-
-  .pebble-container {
-    padding: 0 2.5rem;
-  }
-
-  .pebble-featured {
-    max-width: 360px;
-    height: 360px;
-  }
-
-  .pebble-card-wrapper {
-    perspective: 1200px;
-  }
-
-  .pebble-card.prev {
-    transform: translateX(-25%) translateZ(-100px) scale(0.7) rotateY(15deg);
-    opacity: 0.3;
-  }
-
-  .pebble-card.next {
-    transform: translateX(25%) translateZ(-100px) scale(0.7) rotateY(-15deg);
-    opacity: 0.3;
-  }
-
-  .pebble-nav {
-    width: 46px;
-    height: 46px;
-    z-index: 100;
-    pointer-events: auto;
-  }
-
-  .pebble-nav svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .pebble-nav-prev {
-    left: 0px;
-  }
-
-  .pebble-nav-next {
-    right: 0px;
-  }
-
-  .pebble-name {
-    font-size: 1.75rem;
-  }
-
-  .pebble-role {
-    font-size: 0.9375rem;
-  }
-
-  .pebble-superpower {
-    font-size: 0.9375rem;
-    padding: 0.75rem 1.125rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .pebble-container {
-    padding: 0 2rem;
-  }
-
-  .pebble-featured {
-    max-width: 320px;
-    height: 320px;
-  }
-
-  .pebble-card-wrapper {
-    perspective: 1000px;
-  }
-
-  .pebble-card.prev {
-    transform: translateX(-22%) translateZ(-80px) scale(0.68) rotateY(12deg);
-    opacity: 0.25;
-  }
-
-  .pebble-card.next {
-    transform: translateX(22%) translateZ(-80px) scale(0.68) rotateY(-12deg);
-    opacity: 0.25;
-  }
-
-  .pebble-card-inner {
-    border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%;
-  }
-
-  .pebble-nav {
+  .team-orbit__dot {
     width: 44px;
     height: 44px;
-    border-width: 1.5px;
-    z-index: 100;
-    pointer-events: auto;
   }
 
-  .pebble-nav svg {
-    width: 18px;
-    height: 18px;
-  }
-
-  .pebble-nav-prev {
-    left: 0px;
-  }
-
-  .pebble-nav-next {
-    right: 0px;
-  }
-
-  .pebble-name {
-    font-size: 1.5rem;
-  }
-
-  .pebble-role {
-    font-size: 0.875rem;
-    letter-spacing: 0.1em;
-  }
-
-  .pebble-superpower {
-    font-size: 0.875rem;
-    padding: 0.75rem 1rem;
-  }
-
-  .pebble-dot {
-    width: 12px;
-    height: 12px;
-  }
-
-  .pebble-dot.active {
+  .team-orbit__dot.is-active .team-orbit__dot-fill {
     width: 32px;
   }
+}
 
-  .floating-pebble {
+@media (min-width: 1440px) {
+  .team-orbit {
+    --orbit-card: clamp(260px, 18vw, 320px);
+    --orbit-radius: clamp(380px, 26vw, 480px);
+    --orbit-perspective: 1800px;
+    max-width: 1280px;
+  }
+
+  .team-orbit__halo {
+    width: min(920px, 95%);
+    height: min(560px, 38vw);
+  }
+
+  .team-orbit__track {
+    width: min(1040px, 100%);
+  }
+
+  .team-orbit__nav {
+    width: 68px;
+    height: 68px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Lock iPad / tablet — unchanged from base */
+  .team-orbit {
+    --orbit-card: clamp(140px, 22vw, 200px);
+    --orbit-radius: clamp(200px, 32vw, 300px);
+    --orbit-perspective: clamp(900px, 120vw, 1400px);
+    max-width: 920px;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 820px) {
+  .team-orbit {
+    --orbit-card: clamp(180px, 20vh, 220px);
+    --orbit-radius: clamp(260px, 28vh, 320px);
+  }
+
+  .team-orbit__meta {
+    margin-top: 1rem;
+    min-height: 3.5rem;
+  }
+
+  .team-orbit__hint {
     display: none;
   }
 }
 
-/* ─── Accessibility ──────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .team-orbit {
+    --orbit-card: clamp(112px, 34vw, 155px);
+    --orbit-radius: clamp(155px, 46vw, 210px);
+    --orbit-perspective: 700px;
+    padding: 0.25rem 0 0.75rem;
+  }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  .team-orbit__controls {
+    gap: 0;
+    position: relative;
+    padding: 0 clamp(0.25rem, 2vw, 0.5rem);
+  }
+
+  .team-orbit__nav {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    z-index: 12;
+  }
+
+  .team-orbit__nav--prev {
+    left: 0;
+  }
+
+  .team-orbit__nav--next {
+    right: 0;
+  }
+
+  .team-orbit__hint {
+    display: none;
+  }
+
+  .team-orbit__meta {
+    margin-top: 1rem;
+    min-height: 3.25rem;
   }
 }
 
-.pebble-dot:focus-visible,
-.pebble-nav:focus-visible {
-  outline: 2px solid rgba(253, 103, 50, 0.8);
-  outline-offset: 4px;
+@media (max-width: 480px) {
+  .team-orbit {
+    --orbit-card: clamp(100px, 30vw, 124px);
+    --orbit-radius: clamp(138px, 40vw, 168px);
+  }
+
+  .team-orbit__nav {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .team-orbit__name {
+    font-size: clamp(1.1rem, 5.5vw, 1.35rem);
+  }
+
+  .team-orbit__role {
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-orbit__pebble-surface,
+  .team-orbit__pebble-shine {
+    animation: none !important;
+  }
+
+  .team-orbit__copy,
+  .team-orbit__nav-inner,
+  .team-orbit__dot-fill {
+    transition: none !important;
+  }
+
+  .team-orbit__scene:not(.is-spinning):not(.is-dragging) .team-orbit__item {
+    transition: none !important;
+  }
+}
+
+.team-orbit__dot:focus-visible,
+.team-orbit__pebble:focus-visible {
+  outline: 2px solid rgba(253, 103, 50, 0.85);
+  outline-offset: 3px;
 }
