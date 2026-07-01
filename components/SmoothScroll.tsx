@@ -26,7 +26,14 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
       touchMultiplier: 2,
     });
 
-    lenis.on("scroll", ScrollTrigger.update);
+    lenis.on("scroll", (e: { scroll: number }) => {
+      ScrollTrigger.update();
+      window.dispatchEvent(
+        new CustomEvent("pebble:scroll", { detail: { scroll: e.scroll } })
+      );
+    });
+
+    (window as Window & { __pebbleLenis?: Lenis }).__pebbleLenis = lenis;
 
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
@@ -35,6 +42,7 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
+      delete (window as Window & { __pebbleLenis?: Lenis }).__pebbleLenis;
       gsap.ticker.remove((time) => {
         lenis.raf(time * 1000);
       });
