@@ -1,15 +1,17 @@
 "use client";
 
+import "@/app/sections.css";
+import "../about.css";
+import dynamic from "next/dynamic";
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import { ensureGsapPlugins, gsap } from "@/lib/gsap";
 import Footer from "@/components/Footer";
-import TeamCarousel from "@/components/TeamCarousel";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+const TeamCarousel = dynamic(() => import("@/components/TeamCarousel"), {
+  ssr: false,
+  loading: () => <div className="team-carousel-loading" aria-hidden="true" />,
+});
 
 export default function AboutPage() {
   const heroRef = useRef<HTMLElement>(null);
@@ -18,6 +20,8 @@ export default function AboutPage() {
   const teamRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    ensureGsapPlugins();
+
     const ctx = gsap.context(() => {
       // Hero animation
       gsap.from(".about-hero-title", {

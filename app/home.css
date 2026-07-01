@@ -3,6 +3,14 @@
    Modern, impactful, premium experience
    ============================================ */
 
+.hero-sequence-placeholder {
+  background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+}
+
+.team-carousel-loading {
+  min-height: 320px;
+}
+
 /* Enhanced text styling for hero over pebble animation */
 .hero-blend-text {
   font-style: italic;

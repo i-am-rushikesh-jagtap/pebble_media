@@ -1,23 +1,19 @@
 "use client";
 
-import ServicesSection from "@/components/ServicesSection";
-import ProcessSection from "@/components/ProcessSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
+import "@/app/sections.css";
+import dynamic from "next/dynamic";
 import Footer from "@/components/Footer";
+
+const ServicesSection = dynamic(() => import("@/components/ServicesSection"));
+const ProcessSection = dynamic(() => import("@/components/ProcessSection"));
+const TestimonialsSection = dynamic(() => import("@/components/TestimonialsSection"));
 
 export default function ServicesPage() {
   return (
     <main className="page-with-nav">
-      {/* Services Overview */}
       <ServicesSection />
-
-      {/* How We Work */}
       <ProcessSection />
-
-      {/* Client Testimonials */}
       <TestimonialsSection />
-
-      {/* Footer */}
       <Footer />
     </main>
   );

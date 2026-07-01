@@ -563,6 +563,16 @@
   margin-bottom: 16px;
 }
 
+.footer-logo-text {
+  display: block;
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--brand-color);
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
 .footer-tagline {
   font-size: 1rem;
   font-weight: 500;

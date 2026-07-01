@@ -1,13 +1,13 @@
 "use client";
 
+import "../work.css";
 import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import { ensureGsapPlugins, gsap } from "@/lib/gsap";
 import Footer from "@/components/Footer";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
+  ensureGsapPlugins();
 }
 
 type FilterCategory = "all" | "real-estate" | "d2c" | "tech" | "fmcg" | "content";

@@ -1,5 +1,6 @@
 "use client";
 
+import "@/app/sections.css";
 import Footer from "@/components/Footer";
 
 export default function TestimonialsPage() {

@@ -1,14 +1,22 @@
 "use client";
 
+import "./home.css";
+import dynamic from "next/dynamic";
 import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
-import ImageSequenceCanvas from "@/components/ImageSequenceCanvas";
+import { ensureGsapPlugins, gsap } from "@/lib/gsap";
+import { HERO_FRAME_COUNT, heroFrameUrl } from "@/lib/hero-sequence";
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+const ImageSequenceCanvas = dynamic(() => import("@/components/ImageSequenceCanvas"), {
+  ssr: false,
+  loading: () => (
+    <section className="pinned-section hero-sequence-placeholder" aria-label="Loading hero">
+      <div className="content-overlay container">
+        <h1 className="text-hero-enhanced">For Brands That Refuse To Blend In</h1>
+      </div>
+    </section>
+  ),
+});
 
 export default function Home() {
   const manifestoRef = useRef<HTMLElement>(null);
@@ -17,6 +25,8 @@ export default function Home() {
   const workGridRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    ensureGsapPlugins();
+
     const ctx = gsap.context(() => {
       // Manifesto section reveal
       gsap.from(".manifesto-title", {
@@ -75,19 +85,27 @@ export default function Home() {
   return (
     <main className="home-page">
       {/* HERO SECTION WITH PEBBLE DROP - Full Screen */}
-      <ImageSequenceCanvas
-        frameCount={241}
-        urlTemplate={(frame) => `/sequence/img_${frame.toString().padStart(5, '0')}.jpg`}
-      >
+      <ImageSequenceCanvas frameCount={HERO_FRAME_COUNT} urlTemplate={heroFrameUrl}>
         <div className="content-overlay container">
           <h1 className="text-hero-enhanced" style={{ animation: "fadeInUp 1.2s ease-out" }}>
             For Brands That<br />
             Refuse To<br />
             <span className="hero-blend-text">Blend In</span>
           </h1>
-          <p className="text-tagline" style={{ marginTop: '2rem', animation: "fadeInUp 1.6s ease-out" }}>
+          <p className="text-tagline" style={{ marginTop: "2rem", animation: "fadeInUp 1.6s ease-out" }}>
             We help brands get <em className="tagline-emphasis">remembered</em>, not just seen.
           </p>
+          <div className="hero-cta" style={{ marginTop: "3rem", animation: "fadeInUp 2s ease-out" }}>
+            <Link href="/work" className="btn-primary">
+              <span>Explore Our Work</span>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+            <Link href="/contact" className="btn-secondary">
+              <span>Start a Project</span>
+            </Link>
+          </div>
         </div>
       </ImageSequenceCanvas>
 
