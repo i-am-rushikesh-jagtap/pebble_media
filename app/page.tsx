@@ -6,6 +6,9 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { ensureGsapPlugins, gsap } from "@/lib/gsap";
 import { HERO_FRAME_COUNT, heroFrameUrl } from "@/lib/hero-sequence";
+import HomeHeroCopy from "@/components/HomeHeroCopy";
+import ClientLogoStrip from "@/components/ClientLogoStrip";
+import WorkScrollChapters from "@/components/WorkScrollChapters";
 
 const ImageSequenceCanvas = dynamic(() => import("@/components/ImageSequenceCanvas"), {
   ssr: false,
@@ -22,7 +25,6 @@ export default function Home() {
   const manifestoRef = useRef<HTMLElement>(null);
   const servicesRef = useRef<HTMLElement>(null);
   const philosophyRef = useRef<HTMLElement>(null);
-  const workGridRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     ensureGsapPlugins();
@@ -65,18 +67,6 @@ export default function Home() {
         ease: "power3.out",
       });
 
-      // Work grid stagger
-      gsap.from(".work-item", {
-        scrollTrigger: {
-          trigger: workGridRef.current,
-          start: "top 75%",
-        },
-        scale: 0.9,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power2.out",
-      });
     });
 
     return () => ctx.revert();
@@ -87,27 +77,13 @@ export default function Home() {
       {/* HERO SECTION WITH PEBBLE DROP - Full Screen */}
       <ImageSequenceCanvas frameCount={HERO_FRAME_COUNT} urlTemplate={heroFrameUrl}>
         <div className="content-overlay container">
-          <h1 className="text-hero-enhanced" style={{ animation: "fadeInUp 1.2s ease-out" }}>
-            For Brands That<br />
-            Refuse To<br />
-            <span className="hero-blend-text">Blend In</span>
-          </h1>
-          <p className="text-tagline" style={{ marginTop: "2rem", animation: "fadeInUp 1.6s ease-out" }}>
-            We help brands get <em className="tagline-emphasis">remembered</em>, not just seen.
-          </p>
-          <div className="hero-cta" style={{ marginTop: "3rem", animation: "fadeInUp 2s ease-out" }}>
-            <Link href="/work" className="btn-primary">
-              <span>Explore Our Work</span>
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-            <Link href="/contact" className="btn-secondary">
-              <span>Start a Project</span>
-            </Link>
-          </div>
+          <HomeHeroCopy />
         </div>
       </ImageSequenceCanvas>
+
+      <ClientLogoStrip />
+
+      <WorkScrollChapters />
 
       {/* MANIFESTO SECTION */}
       <section ref={manifestoRef} className="manifesto-section">
@@ -242,78 +218,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURED WORK GRID */}
-      <section ref={workGridRef} className="work-section">
-        <div className="container-wide">
-          <div className="work-header">
-            <h2 className="section-title">Selected Work</h2>
-            <Link href="/work" className="view-all-link">
-              View All Projects
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </Link>
-          </div>
-
-          <div className="work-grid">
-            <Link href="/work/jd-nova" className="work-item work-item-large">
-              <div className="work-item-image">
-                <div className="work-item-overlay"></div>
-                <div className="work-item-label">Real Estate</div>
-              </div>
-              <div className="work-item-info">
-                <h3>JD Nova Corp</h3>
-                <p>Brand identity & performance campaigns</p>
-              </div>
-            </Link>
-
-            <Link href="/work/chitale" className="work-item">
-              <div className="work-item-image">
-                <div className="work-item-overlay"></div>
-                <div className="work-item-label">FMCG</div>
-              </div>
-              <div className="work-item-info">
-                <h3>Chitale Bandhu</h3>
-                <p>Content strategy & social growth</p>
-              </div>
-            </Link>
-
-            <Link href="/work/boldfit" className="work-item">
-              <div className="work-item-image">
-                <div className="work-item-overlay"></div>
-                <div className="work-item-label">D2C</div>
-              </div>
-              <div className="work-item-info">
-                <h3>Boldfit</h3>
-                <p>Influencer marketing & UGC</p>
-              </div>
-            </Link>
-
-            <Link href="/work/rapido" className="work-item">
-              <div className="work-item-image">
-                <div className="work-item-overlay"></div>
-                <div className="work-item-label">Tech</div>
-              </div>
-              <div className="work-item-info">
-                <h3>Rapido</h3>
-                <p>Campaign films & digital ads</p>
-              </div>
-            </Link>
-
-            <Link href="/work/skyi" className="work-item work-item-tall">
-              <div className="work-item-image">
-                <div className="work-item-overlay"></div>
-                <div className="work-item-label">Real Estate</div>
-              </div>
-              <div className="work-item-info">
-                <h3>SKYi Developers</h3>
-                <p>Property films & lead generation</p>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* CTA SECTION */}
       <section className="cta-section">
         <div className="container">
@@ -339,14 +243,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Global Styles for page-specific animations */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(40px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}} />
     </main>
   );
 }

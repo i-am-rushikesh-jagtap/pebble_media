@@ -386,7 +386,7 @@ export class WheelPhysicsEngine {
       if (settled) {
         this.angle = target;
         this.velocity = 0;
-        const index = indexFromAngle(this.angle, slotStep, slotCount);
+        const index = indexFromAngle(target, slotStep, slotCount);
         this.phase = "idle";
         this.rafId = 0;
         this.snapTarget = null;

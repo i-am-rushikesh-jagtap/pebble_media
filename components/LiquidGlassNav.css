@@ -175,19 +175,6 @@
   will-change: transform;
 }
 
-.lg-nav__link--active::after {
-  content: "";
-  position: absolute;
-  bottom: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #fd6732;
-  box-shadow: 0 0 10px rgba(253, 103, 50, 0.8);
-  z-index: 3;
-}
 
 /* ─── Actions ─── */
 .lg-nav__actions {
