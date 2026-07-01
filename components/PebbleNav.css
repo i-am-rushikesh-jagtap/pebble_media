@@ -1,0 +1,500 @@
+/* ═══════════════════════════════════════════════════════════
+   PEBBLE MEDIA NAVIGATION
+   Brand: Orange (#FD6732), Cream (#EDE7CF), Dark (#171717)
+   Fonts: Cinzel (serif), Montserrat (sans-serif)
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────
+   TOP NAVIGATION BAR
+   ───────────────────────────────────────────────────────── */
+
+.pebble-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1.75rem 0;
+  transition: all 0.4s ease;
+  pointer-events: none;
+}
+
+.pebble-nav--scrolled {
+  padding: 1.25rem 0;
+  background: rgba(23, 23, 23, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 1px 0 rgba(237, 231, 207, 0.1);
+}
+
+.pebble-nav__container {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+
+.pebble-nav__logo {
+  display: block;
+  position: relative;
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+.pebble-nav__logo:hover {
+  transform: scale(1.03);
+}
+
+.pebble-nav__logo img {
+  display: block;
+  height: auto;
+  max-height: 40px;
+  width: auto;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+}
+
+.pebble-nav--scrolled .pebble-nav__logo img {
+  max-height: 35px;
+}
+
+/* Menu Button */
+.pebble-nav__menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: 1.5px solid rgba(237, 231, 207, 0.25);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pebble-nav__menu-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fd6732;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease;
+  z-index: 0;
+}
+
+.pebble-nav__menu-btn:hover::before {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.pebble-nav__menu-btn:hover {
+  border-color: #fd6732;
+}
+
+.pebble-nav__menu-text {
+  position: relative;
+  z-index: 1;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ede7cf;
+  transition: color 0.3s ease;
+}
+
+.pebble-nav__menu-btn:hover .pebble-nav__menu-text {
+  color: #ffffff;
+}
+
+.pebble-nav__menu-lines {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 20px;
+}
+
+.pebble-nav__menu-lines span {
+  display: block;
+  height: 2px;
+  background: #ede7cf;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.pebble-nav__menu-btn:hover .pebble-nav__menu-lines span {
+  background: #ffffff;
+}
+
+.pebble-nav__menu-btn:hover .pebble-nav__menu-lines span:first-child {
+  width: 75%;
+  margin-left: auto;
+}
+
+/* ─────────────────────────────────────────────────────────
+   FULL MENU OVERLAY
+   ───────────────────────────────────────────────────────── */
+
+.pebble-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  overflow: hidden;
+}
+
+.pebble-menu__bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #fd6732 0%, #ff5722 100%);
+  transform-origin: top;
+}
+
+.pebble-menu__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem 3rem 3rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Close Button */
+.pebble-menu__close {
+  position: absolute;
+  top: 2.5rem;
+  right: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.pebble-menu__close:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.03);
+}
+
+.pebble-menu__close-icon {
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.pebble-menu__close-icon span {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #ffffff;
+  border-radius: 2px;
+}
+
+.pebble-menu__close-icon span:first-child {
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.pebble-menu__close-icon span:last-child {
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+.pebble-menu__close-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+/* Navigation */
+.pebble-menu__nav {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0 2rem;
+}
+
+.pebble-menu__list {
+  width: 100%;
+  max-width: 900px;
+}
+
+.pebble-menu__item-wrap {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.pebble-menu__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  padding: 1.5rem 0;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.pebble-menu__item:hover {
+  padding-left: 1rem;
+}
+
+.pebble-menu__num {
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 2.5rem;
+  transition: color 0.3s ease;
+}
+
+.pebble-menu__item:hover .pebble-menu__num {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pebble-menu__name {
+  font-family: var(--font-cinzel), serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease;
+}
+
+.pebble-menu__item:hover .pebble-menu__name {
+  color: #ffffff;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.pebble-menu__item--active .pebble-menu__name {
+  color: #171717;
+  font-weight: 500;
+}
+
+.pebble-menu__active-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: #171717;
+  border-radius: 0 3px 3px 0;
+}
+
+/* Footer */
+.pebble-menu__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.pebble-menu__tagline p {
+  font-family: var(--font-cinzel), serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: -0.01em;
+}
+
+.pebble-menu__contact {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.875rem;
+}
+
+.pebble-menu__contact a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.pebble-menu__contact a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.pebble-menu__divider {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ─────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .pebble-nav__container {
+    padding: 0 2rem;
+  }
+
+  .pebble-menu__content {
+    padding: 2rem 2rem 2.5rem;
+  }
+
+  .pebble-menu__close {
+    top: 2rem;
+    right: 2rem;
+  }
+
+  .pebble-menu__name {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .pebble-nav {
+    padding: 1.5rem 0;
+  }
+
+  .pebble-nav--scrolled {
+    padding: 1rem 0;
+  }
+
+  .pebble-nav__container {
+    padding: 0 1.5rem;
+  }
+
+  .pebble-nav__logo img {
+    max-height: 35px;
+  }
+
+  .pebble-nav--scrolled .pebble-nav__logo img {
+    max-height: 30px;
+  }
+
+  .pebble-nav__menu-btn {
+    padding: 0.625rem 1.25rem;
+    gap: 0.75rem;
+  }
+
+  .pebble-nav__menu-text {
+    font-size: 0.75rem;
+  }
+
+  .pebble-menu__content {
+    padding: 1.5rem 1.5rem 2rem;
+  }
+
+  .pebble-menu__close {
+    top: 1.5rem;
+    right: 1.5rem;
+    padding: 0.625rem 1.25rem;
+  }
+
+  .pebble-menu__nav {
+    padding: 3rem 0 1.5rem;
+  }
+
+  .pebble-menu__item {
+    gap: 1.5rem;
+    padding: 1.25rem 0;
+  }
+
+  .pebble-menu__name {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+  }
+
+  .pebble-menu__num {
+    font-size: 0.8125rem;
+    min-width: 2rem;
+  }
+
+  .pebble-menu__tagline p {
+    font-size: 1.125rem;
+  }
+
+  .pebble-menu__contact {
+    font-size: 0.8125rem;
+    gap: 0.625rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pebble-nav__container {
+    padding: 0 1rem;
+  }
+
+  .pebble-menu__content {
+    padding: 1rem 1rem 1.5rem;
+  }
+
+  .pebble-menu__close {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .pebble-menu__item {
+    gap: 1rem;
+  }
+
+  .pebble-menu__name {
+    font-size: clamp(1.5rem, 10vw, 2rem);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
+   ACCESSIBILITY
+   ───────────────────────────────────────────────────────── */
+
+.pebble-nav__logo:focus-visible,
+.pebble-nav__menu-btn:focus-visible,
+.pebble-menu__close:focus-visible,
+.pebble-menu__item:focus-visible {
+  outline: 2px solid rgba(237, 231, 207, 0.8);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pebble-nav,
+  .pebble-nav__menu-btn,
+  .pebble-menu__bg,
+  .pebble-menu__item,
+  .pebble-menu__close {
+    transition-duration: 0.01s !important;
+  }
+
+  .pebble-nav__menu-btn::before {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────
+   PERFORMANCE
+   ───────────────────────────────────────────────────────── */
+
+.pebble-menu__bg,
+.pebble-menu__name,
+.pebble-menu__active-bar {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.pebble-nav {
+  contain: layout style;
+}
+
+.pebble-menu {
+  contain: layout style paint;
+}

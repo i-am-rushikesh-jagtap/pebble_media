@@ -47,7 +47,7 @@
 
 .section-services {
   padding: 160px 0;
-  background: linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
+  background: transparent;
   position: relative;
 }
 
@@ -131,7 +131,7 @@
 
 .section-portfolio {
   padding: 160px 0;
-  background: #050505;
+  background: transparent;
 }
 
 .portfolio-grid {
@@ -211,7 +211,7 @@
 
 .section-clients {
   padding: 160px 0;
-  background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+  background: transparent;
 }
 
 .stats-grid {
@@ -305,7 +305,7 @@
 
 .section-process {
   padding: 160px 0;
-  background: #050505;
+  background: transparent;
 }
 
 .process-timeline {
@@ -393,7 +393,7 @@
 
 .section-testimonials {
   padding: 160px 0;
-  background: linear-gradient(180deg, #0a0a0a 0%, #050505 100%);
+  background: transparent;
 }
 
 .testimonials-grid {
@@ -481,7 +481,7 @@
 
 .section-about {
   padding: 160px 0;
-  background: #050505;
+  background: transparent;
 }
 
 .about-content {
@@ -544,7 +544,7 @@
    ========================================================== */
 
 .footer {
-  background: linear-gradient(180deg, #050505 0%, #000000 100%);
+  background: transparent;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 100px 0 40px;
 }
@@ -751,7 +751,7 @@
 
 .section-video-portfolio {
   padding: 160px 0;
-  background: linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
+  background: transparent;
   position: relative;
 }
 
@@ -1054,7 +1054,7 @@
 
 .section-contact {
   padding: 120px 0;
-  background: linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
+  background: transparent;
   min-height: calc(100vh - 64px);
 }
 
@@ -1221,7 +1221,7 @@
 
 .section-blog {
   padding: 120px 0;
-  background: #050505;
+  background: transparent;
   min-height: calc(100vh - 64px);
 }
 

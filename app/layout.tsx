@@ -6,7 +6,7 @@ import "./home.css";
 import "./about.css";
 import "./work.css";
 import SmoothScroll from "@/components/SmoothScroll";
-import LiquidGlassNav from "@/components/LiquidGlassNav";
+import PebbleNav from "@/components/PebbleNav";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,8 +32,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${cinzel.variable}`}>
-        <LiquidGlassNav />
+      <body className={`${inter.variable} ${cinzel.variable}`} suppressHydrationWarning>
+        <PebbleNav />
         <SmoothScroll>
           {children}
         </SmoothScroll>

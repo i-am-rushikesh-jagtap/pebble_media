@@ -4,7 +4,7 @@
    ============================================ */
 
 .work-page {
-  background: #050505;
+  background: transparent;
   color: #ffffff;
 }
 
@@ -98,7 +98,7 @@
 /* WORK GRID SECTION */
 .work-grid-section {
   padding: 8rem 0;
-  background: #050505;
+  background: transparent;
 }
 
 /* Filter */
@@ -311,7 +311,7 @@
 /* WORK CTA */
 .work-cta {
   padding: 10rem 0;
-  background: linear-gradient(180deg, #050505 0%, #0a0a0a 100%);
+  background: transparent;
   text-align: center;
 }
 

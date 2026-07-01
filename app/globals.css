@@ -9,6 +9,9 @@
   --brand-color-dim: rgba(253, 103, 50, 0.2);
   --font-inter: var(--font-inter);
   --font-cinzel: var(--font-cinzel);
+
+  /* Premium grain background - adjust intensity here */
+  --grain-opacity: 0.06;
 }
 
 * {
@@ -21,12 +24,49 @@ html,
 body {
   width: 100%;
   min-height: 100vh;
-  background-color: var(--bg-color);
+  background-color: var(--brand-color-dark);
   color: var(--text-color);
   font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Premium grain texture overlay - fixed while scrolling */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+  mix-blend-mode: screen;
+  will-change: auto;
+}
+
+/* Alternative grain layer for more depth */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise2)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 100px 100px;
+  mix-blend-mode: overlay;
+  will-change: auto;
 }
 
 /* Lenis standard CSS to prevent jitter */
@@ -186,6 +226,26 @@ html.lenis {
   width: 100%;
   height: 100vh;
   overflow: hidden;
+}
+
+/* Seamless blend gradient at bottom of hero */
+.pinned-section::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 300px;
+  background: linear-gradient(
+    to bottom,
+    rgba(23, 23, 23, 0) 0%,
+    rgba(23, 23, 23, 0.3) 30%,
+    rgba(23, 23, 23, 0.6) 60%,
+    rgba(23, 23, 23, 0.85) 85%,
+    rgba(23, 23, 23, 1) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
 }
 
 .canvas-container {

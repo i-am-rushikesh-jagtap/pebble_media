@@ -108,22 +108,36 @@
 /* MANIFESTO SECTION - Seamless blend from hero */
 .manifesto-section {
   position: relative;
-  padding: 16rem 0 12rem;
+  padding: 8rem 0 12rem;
+  background: transparent;
+  margin-top: 0;
+}
+
+/* Smooth gradient overlay at top for seamless blend */
+.manifesto-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 250px;
   background: linear-gradient(
-    180deg,
-    rgba(5, 5, 5, 0) 0%,
-    rgba(8, 8, 8, 0.5) 10%,
-    rgba(10, 10, 10, 0.8) 20%,
-    #0a0a0a 35%,
-    #0a0a0a 100%
+    to bottom,
+    rgba(23, 23, 23, 1) 0%,
+    rgba(23, 23, 23, 0.7) 40%,
+    rgba(23, 23, 23, 0.3) 70%,
+    transparent 100%
   );
-  margin-top: -8rem;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .container-wide {
   max-width: 1600px;
   margin: 0 auto;
   padding: 0 4rem;
+  position: relative;
+  z-index: 2;
 }
 
 .manifesto-title {
@@ -285,13 +299,7 @@
 /* SERVICES SECTION - Gradual transition with glow */
 .services-section {
   padding: 12rem 0 14rem;
-  background: linear-gradient(
-    180deg,
-    #0a0a0a 0%,
-    #070707 20%,
-    #050505 40%,
-    #050505 100%
-  );
+  background: transparent;
   position: relative;
   overflow: hidden;
 }
@@ -477,14 +485,7 @@
 .philosophy-section {
   position: relative;
   padding: 14rem 0 16rem;
-  background: linear-gradient(
-    180deg,
-    rgba(10, 10, 10, 1) 0%,
-    rgba(12, 12, 12, 1) 15%,
-    rgba(15, 15, 15, 1) 40%,
-    rgba(12, 12, 12, 1) 70%,
-    rgba(8, 8, 8, 1) 100%
-  );
+  background: transparent;
   overflow: hidden;
 }
 
@@ -621,13 +622,7 @@
 /* WORK SECTION - Seamless continuation */
 .work-section {
   padding: 14rem 0;
-  background: linear-gradient(
-    180deg,
-    rgba(8, 8, 8, 1) 0%,
-    rgba(6, 6, 6, 1) 20%,
-    rgba(5, 5, 5, 1) 40%,
-    #050505 100%
-  );
+  background: transparent;
   position: relative;
 }
 
@@ -824,13 +819,7 @@
 .cta-section {
   position: relative;
   padding: 14rem 0 16rem;
-  background: linear-gradient(
-    180deg,
-    #050505 0%,
-    rgba(8, 8, 8, 1) 30%,
-    rgba(10, 10, 10, 1) 60%,
-    rgba(12, 12, 12, 1) 100%
-  );
+  background: transparent;
   overflow: hidden;
 }
 

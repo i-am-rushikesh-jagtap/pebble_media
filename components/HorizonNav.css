@@ -1,0 +1,689 @@
+/* ═══════════════════════════════════════════════════════════════
+   THE HORIZON LINE
+   Navigation embodying the calm surface before the ripple
+   One Pebble. Infinite Ripples.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────
+   CUSTOM PROPERTIES
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --horizon-height-default: 90px;
+  --horizon-height-scrolled: 70px;
+  --horizon-line-thickness-default: 1px;
+  --horizon-line-thickness-scrolled: 1px;
+  --horizon-transition-duration: 0.8s;
+  --horizon-water-ease: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NAVIGATION BAR - The Horizon Line
+   ───────────────────────────────────────────────────────────── */
+
+.horizon-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  height: var(--horizon-height-default);
+  pointer-events: none;
+  transition: all var(--horizon-transition-duration) var(--horizon-water-ease);
+}
+
+.horizon-nav--scrolled {
+  height: var(--horizon-height-scrolled);
+  background: linear-gradient(
+    180deg,
+    rgba(23, 23, 23, 0.75) 0%,
+    rgba(23, 23, 23, 0.5) 100%
+  );
+  backdrop-filter: blur(60px) saturate(150%);
+  -webkit-backdrop-filter: blur(60px) saturate(150%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05),
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 16px 64px rgba(0, 0, 0, 0.4);
+}
+
+.horizon-nav__container {
+  position: relative;
+  max-width: 1800px;
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+
+/* ─── The Horizon Line Element ─── */
+.horizon-nav__line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--horizon-line-thickness-default);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 20%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.08) 80%,
+    transparent 100%
+  );
+  transition: all var(--horizon-transition-duration) var(--horizon-water-ease);
+  pointer-events: none;
+}
+
+.horizon-nav--scrolled .horizon-nav__line {
+  height: var(--horizon-line-thickness-scrolled);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(253, 103, 50, 0.15) 20%,
+    rgba(253, 103, 50, 0.25) 50%,
+    rgba(253, 103, 50, 0.15) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 20px rgba(253, 103, 50, 0.3);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LOGO - Floats like a reflection
+   ───────────────────────────────────────────────────────────── */
+
+.horizon-nav__logo {
+  position: relative;
+  z-index: 10;
+  display: block;
+  text-decoration: none;
+}
+
+.horizon-nav__logo-wrapper {
+  position: relative;
+  display: block;
+}
+
+.horizon-nav__logo-image {
+  display: block;
+  height: auto;
+  max-height: 42px;
+  width: auto;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.5));
+  transition: filter 0.4s var(--horizon-water-ease);
+}
+
+.horizon-nav--scrolled .horizon-nav__logo-image {
+  max-height: 36px;
+}
+
+.horizon-nav__logo:hover .horizon-nav__logo-image {
+  filter: drop-shadow(0 6px 24px rgba(253, 103, 50, 0.4));
+}
+
+/* Subtle reflection effect beneath logo */
+.horizon-nav__logo-reflection {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.6s var(--horizon-water-ease);
+  pointer-events: none;
+}
+
+.horizon-nav__logo:hover .horizon-nav__logo-reflection {
+  opacity: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DESKTOP NAVIGATION LINKS
+   ───────────────────────────────────────────────────────────── */
+
+.horizon-nav__links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 100%;
+}
+
+.horizon-nav__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 1.5rem;
+  text-decoration: none;
+  transition: all 0.4s var(--horizon-water-ease);
+}
+
+.horizon-nav__link-text {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-inter);
+  font-size: 0.9375rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.4s var(--horizon-water-ease);
+}
+
+.horizon-nav__link:hover .horizon-nav__link-text {
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 12px rgba(253, 103, 50, 0.3);
+}
+
+.horizon-nav__link--active .horizon-nav__link-text {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 0 2px 16px rgba(253, 103, 50, 0.4);
+}
+
+/* ─── Active Indicator - Concentric Ripple Rings ─── */
+.horizon-nav__ripple-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.horizon-nav__ripple-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1px solid rgba(253, 103, 50, 0.4);
+  pointer-events: none;
+}
+
+.horizon-nav__ripple-ring--1 {
+  width: 60%;
+  height: 120%;
+  animation: ripplePulse 3s ease-in-out infinite;
+}
+
+.horizon-nav__ripple-ring--2 {
+  width: 80%;
+  height: 140%;
+  animation: ripplePulse 3s ease-in-out 0.5s infinite;
+  opacity: 0.6;
+}
+
+.horizon-nav__ripple-ring--3 {
+  width: 100%;
+  height: 160%;
+  animation: ripplePulse 3s ease-in-out 1s infinite;
+  opacity: 0.3;
+}
+
+@keyframes ripplePulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 0.6;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE MENU TRIGGER
+   ───────────────────────────────────────────────────────────── */
+
+.horizon-nav__trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s var(--horizon-water-ease);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.horizon-nav__trigger:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  border-color: rgba(253, 103, 50, 0.3);
+  box-shadow: 0 8px 24px rgba(253, 103, 50, 0.2);
+}
+
+.horizon-nav__trigger-text {
+  font-family: var(--font-inter);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+}
+
+.horizon-nav__trigger-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.horizon-nav__trigger-dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fd6732 0%, #ff5722 100%);
+  box-shadow: 0 0 12px rgba(253, 103, 50, 0.6);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE MENU OVERLAY
+   ───────────────────────────────────────────────────────────── */
+
+.horizon-menu-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: radial-gradient(
+    ellipse at top,
+    rgba(23, 23, 23, 0.85) 0%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.horizon-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  pointer-events: none;
+}
+
+.horizon-menu__container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+  pointer-events: auto;
+}
+
+.horizon-menu__item-wrapper {
+  width: 100%;
+}
+
+.horizon-menu__item {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+}
+
+.horizon-menu__item-surface {
+  position: relative;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.4s var(--horizon-water-ease);
+  overflow: hidden;
+}
+
+.horizon-menu__item-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(253, 103, 50, 0.05) 0%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s var(--horizon-water-ease);
+  pointer-events: none;
+}
+
+.horizon-menu__item-surface:hover::before {
+  opacity: 1;
+}
+
+.horizon-menu__item-surface:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
+  border-color: rgba(253, 103, 50, 0.3);
+  box-shadow:
+    0 12px 48px rgba(253, 103, 50, 0.25),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.horizon-menu__item--active .horizon-menu__item-surface {
+  background: linear-gradient(
+    135deg,
+    rgba(253, 103, 50, 0.2) 0%,
+    rgba(253, 103, 50, 0.1) 100%
+  );
+  border-color: rgba(253, 103, 50, 0.5);
+  box-shadow:
+    0 12px 48px rgba(253, 103, 50, 0.4),
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 80px rgba(253, 103, 50, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.horizon-menu__item-text {
+  position: relative;
+  z-index: 2;
+  display: block;
+  font-family: var(--font-inter);
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.85);
+  transition: all 0.4s var(--horizon-water-ease);
+}
+
+.horizon-menu__item--active .horizon-menu__item-text {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 1);
+  text-shadow: 0 2px 20px rgba(253, 103, 50, 0.5);
+}
+
+/* ─── Active State Ripples ─── */
+.horizon-menu__active-ripples {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.horizon-menu__ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 20px;
+  border: 1px solid rgba(253, 103, 50, 0.4);
+  pointer-events: none;
+}
+
+.horizon-menu__ripple:nth-child(1) {
+  width: 100%;
+  height: 100%;
+  animation: menuRipple 3s ease-in-out infinite;
+}
+
+.horizon-menu__ripple:nth-child(2) {
+  width: 95%;
+  height: 95%;
+  animation: menuRipple 3s ease-in-out 0.6s infinite;
+  opacity: 0.6;
+}
+
+.horizon-menu__ripple:nth-child(3) {
+  width: 90%;
+  height: 90%;
+  animation: menuRipple 3s ease-in-out 1.2s infinite;
+  opacity: 0.3;
+}
+
+@keyframes menuRipple {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.03);
+    opacity: 0.6;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE DESIGN
+   ───────────────────────────────────────────────────────────── */
+
+/* Extra large desktop */
+@media (min-width: 1920px) {
+  .horizon-nav__container {
+    padding: 0 4rem;
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1280px) and (max-width: 1919px) {
+  .horizon-nav__container {
+    padding: 0 3rem;
+  }
+}
+
+/* Medium desktop */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .horizon-nav__container {
+    padding: 0 2.5rem;
+  }
+
+  .horizon-nav__link {
+    padding: 0 1.25rem;
+  }
+
+  .horizon-nav__link-text {
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet and below - Mobile menu */
+@media (max-width: 1023px) {
+  :root {
+    --horizon-height-default: 80px;
+    --horizon-height-scrolled: 65px;
+  }
+
+  .horizon-nav__container {
+    padding: 0 2rem;
+  }
+
+  .horizon-nav__logo-image {
+    max-height: 38px;
+  }
+
+  .horizon-nav--scrolled .horizon-nav__logo-image {
+    max-height: 32px;
+  }
+
+  .horizon-menu__container {
+    gap: 0.875rem;
+    max-width: 450px;
+  }
+
+  .horizon-menu__item-surface {
+    padding: 1.25rem 1.75rem;
+  }
+
+  .horizon-menu__item-text {
+    font-size: 1.125rem;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 640px) {
+  :root {
+    --horizon-height-default: 70px;
+    --horizon-height-scrolled: 60px;
+  }
+
+  .horizon-nav__container {
+    padding: 0 1.5rem;
+  }
+
+  .horizon-nav__logo-image {
+    max-height: 34px;
+  }
+
+  .horizon-nav--scrolled .horizon-nav__logo-image {
+    max-height: 30px;
+  }
+
+  .horizon-nav__trigger {
+    padding: 0.625rem 1.25rem;
+    gap: 0.625rem;
+  }
+
+  .horizon-nav__trigger-text {
+    font-size: 0.8125rem;
+  }
+
+  .horizon-menu {
+    padding: 1.5rem;
+  }
+
+  .horizon-menu__container {
+    gap: 0.75rem;
+    max-width: 100%;
+  }
+
+  .horizon-menu__item-surface {
+    padding: 1.125rem 1.5rem;
+    border-radius: 16px;
+  }
+
+  .horizon-menu__item-text {
+    font-size: 1rem;
+  }
+
+  /* Reduce blur for mobile performance */
+  .horizon-menu-backdrop {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .horizon-menu__item-surface {
+    backdrop-filter: blur(24px) saturate(150%);
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 400px) {
+  .horizon-nav__container {
+    padding: 0 1rem;
+  }
+
+  .horizon-nav__trigger {
+    padding: 0.5rem 1rem;
+  }
+
+  .horizon-menu__item-surface {
+    padding: 1rem 1.25rem;
+  }
+
+  .horizon-menu__item-text {
+    font-size: 0.9375rem;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ACCESSIBILITY
+   ───────────────────────────────────────────────────────────── */
+
+/* Focus states */
+.horizon-nav__logo:focus-visible,
+.horizon-nav__link:focus-visible,
+.horizon-nav__trigger:focus-visible {
+  outline: 2px solid rgba(253, 103, 50, 0.8);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.horizon-menu__item:focus-visible .horizon-menu__item-surface {
+  outline: 2px solid rgba(253, 103, 50, 0.8);
+  outline-offset: 4px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .horizon-nav,
+  .horizon-nav__logo-image,
+  .horizon-nav__link,
+  .horizon-menu__item-surface,
+  .horizon-nav__ripple-ring,
+  .horizon-menu__ripple {
+    animation: none !important;
+    transition-duration: 0.1s !important;
+  }
+
+  .horizon-nav__trigger-dot {
+    animation: none !important;
+  }
+
+  .horizon-nav__ripple-rings,
+  .horizon-menu__active-ripples {
+    display: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PERFORMANCE OPTIMIZATIONS
+   ───────────────────────────────────────────────────────────── */
+
+.horizon-nav__logo-image,
+.horizon-nav__link,
+.horizon-menu__item-surface,
+.horizon-nav__ripple-ring,
+.horizon-menu__ripple {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Force GPU acceleration */
+.horizon-nav,
+.horizon-menu-backdrop,
+.horizon-menu {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Prevent layout shift */
+.horizon-nav {
+  contain: layout style;
+}

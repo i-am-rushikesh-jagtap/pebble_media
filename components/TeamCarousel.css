@@ -1,530 +1,536 @@
 /* ═══════════════════════════════════════════════════════════════
-   APPLE-STYLE STICKY SCROLL CAROUSEL
-
-   Implementation:
-   • Tall wrapper creates scroll space (600vh)
-   • Sticky container pins at top: 0
-   • Natural browser scrolling (no preventDefault)
-   • Scroll position → card transitions
-   • GPU-accelerated transforms
+   PEBBLE-THEMED TEAM CAROUSEL
+   Organic shapes · Smooth animations · Modern aesthetics
    ═══════════════════════════════════════════════════════════════ */
 
-/* ─── Wrapper (Creates Scroll Space) ─────────────────────────── */
-
-.team-carousel-wrapper {
-  /* 6 cards × 100vh each = 600vh total scroll distance */
-  height: 600vh;
+.team-pebble-carousel {
   position: relative;
-}
-
-/* ─── Sticky Container (Pins in Viewport) ───────────────────── */
-
-.team-carousel-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
   width: 100%;
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 4rem 2rem;
   overflow: hidden;
 }
 
-/* ─── Core Layout ─────────────────────────────────────────────── */
-
-.team-carousel-main-container {
-  display: flex;
-  width: 100%;
-  max-width: 1400px;
-  height: 100%;
-  gap: clamp(3rem, 8vw, 5rem);
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
+.pebble-container {
   position: relative;
-}
-
-.team-carousel-section {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 600px;
-}
-
-.team-controls-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(2rem, 5vw, 3.5rem);
-  padding-left: clamp(0rem, 3vw, 2.5rem);
-}
-
-/* ─── 3D Carousel Container ──────────────────────────────────── */
-
-.team-carousel-container {
   width: 100%;
-  max-width: 500px;
-  height: 70vh;
-  min-height: 600px;
-  position: relative;
-  perspective: 1800px;
-  perspective-origin: 50% 50%;
-  display: flex;
-  flex-direction: column;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
   align-items: center;
-  justify-content: center;
-
-  /* Smooth rendering */
-  transform: translateZ(0);
-  -webkit-font-smoothing: antialiased;
+  z-index: 2;
 }
 
-.team-carousel-track {
+/* ─── Main Featured Card ─────────────────────────────────────── */
+
+.pebble-featured {
+  position: relative;
+  width: 100%;
+  height: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pebble-card-wrapper {
+  position: relative;
   width: 100%;
   height: 100%;
-  position: relative;
+  perspective: 1500px;
   transform-style: preserve-3d;
 }
 
-/* ─── Card Base Styles ───────────────────────────────────────── */
-
-.card {
+.pebble-card {
   position: absolute;
-  width: 400px;
-  height: 500px;
-  left: 50%;
-  top: 50%;
-  margin-left: -200px;
-  margin-top: -250px;
+  width: 100%;
+  height: 100%;
+  transition:
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.pebble-card.active {
+  transform: translateX(0) scale(1) rotateY(0deg);
+  opacity: 1;
+  z-index: 3;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.pebble-card.prev {
+  transform: translateX(-120%) scale(0.85) rotateY(45deg);
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.pebble-card.next {
+  transform: translateX(120%) scale(0.85) rotateY(-45deg);
+  opacity: 0.3;
+  z-index: 1;
+}
+
+.pebble-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 45% 55% 52% 48% / 48% 45% 55% 52%;
+  overflow: hidden;
   background: linear-gradient(
     145deg,
-    rgba(20, 20, 20, 0.96) 0%,
-    rgba(10, 10, 10, 0.98) 100%
+    rgba(15, 15, 15, 0.95) 0%,
+    rgba(25, 25, 25, 0.98) 100%
   );
-  border-radius: 28px;
-  overflow: hidden;
-  pointer-events: none;
-
-  /* Hardware acceleration */
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-
-  /* Apple's refined shadow system */
   box-shadow:
-    0 30px 90px -20px rgba(0, 0, 0, 0.65),
-    0 12px 35px -12px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.025),
-    inset 0 1px 0 rgba(255, 255, 255, 0.035);
-
-  border: 1px solid rgba(255, 255, 255, 0.035);
-
-  /* GPU composite layer - NO transitions, controlled by inline styles */
-  will-change: transform, opacity, filter;
+    0 30px 90px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  animation: pebbleMorph 8s ease-in-out infinite;
+  will-change: box-shadow;
+  transform: translateZ(0);
 }
 
-/* Ambient glow overlay */
-.card-glow {
-  position: absolute;
-  inset: -50%;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(253, 103, 50, 0.15) 0%,
-    transparent 65%
-  );
-  mix-blend-mode: soft-light;
-  pointer-events: none;
-  animation: glowPulse 4s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
+@keyframes pebbleMorph {
   0%, 100% {
-    opacity: 0.8;
-    transform: scale(1);
+    border-radius: 45% 55% 52% 48% / 48% 45% 55% 52%;
+  }
+  25% {
+    border-radius: 52% 48% 45% 55% / 55% 52% 48% 45%;
   }
   50% {
-    opacity: 1;
-    transform: scale(1.05);
+    border-radius: 48% 52% 55% 45% / 45% 55% 52% 48%;
+  }
+  75% {
+    border-radius: 55% 45% 48% 52% / 52% 48% 45% 55%;
   }
 }
 
-/* Ken Burns wrapper */
-.card-image-wrapper {
+.pebble-card.active .pebble-card-inner {
+  box-shadow:
+    0 40px 120px rgba(253, 103, 50, 0.4),
+    0 0 0 1px rgba(253, 103, 50, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  animation: pebbleMorph 8s ease-in-out infinite, pebbleGlow 2s ease-in-out infinite;
+  transition: box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes pebbleGlow {
+  0%, 100% {
+    box-shadow:
+      0 40px 120px rgba(253, 103, 50, 0.4),
+      0 0 0 1px rgba(253, 103, 50, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 45px 130px rgba(253, 103, 50, 0.5),
+      0 0 0 1px rgba(253, 103, 50, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+}
+
+.pebble-image {
   position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
 }
 
-.card img {
+.pebble-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
-  user-select: none;
-  -webkit-user-drag: none;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  transform: scale(1.02);
+}
+
+.pebble-card.active .pebble-image img {
+  transform: scale(1.06);
+}
+
+/* Shine overlay */
+.pebble-shine {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.pebble-card.active .pebble-shine {
+  animation: shine 8s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(-100%) translateY(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(100%) translateY(100%);
+  }
+}
+
+/* Ripple effect */
+.pebble-ripple {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(
+    circle at center,
+    rgba(253, 103, 50, 0.15) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transform: scale(0.8);
   pointer-events: none;
+}
+
+.pebble-card.active .pebble-ripple {
+  animation: ripple 3s ease-in-out infinite;
+}
+
+@keyframes ripple {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* ─── Navigation Arrows ──────────────────────────────────────── */
+
+.pebble-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(253, 103, 50, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(253, 103, 50, 0.2);
+  color: #FD6732;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+}
+
+.pebble-nav:hover {
+  background: rgba(253, 103, 50, 0.2);
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 8px 24px rgba(253, 103, 50, 0.3);
+}
+
+.pebble-nav-prev {
+  left: -30px;
+}
+
+.pebble-nav-next {
+  right: -30px;
 }
 
 /* ─── Member Information ─────────────────────────────────────── */
 
-.team-member-info {
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  padding: 1.5rem 0;
+.pebble-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding-left: 2rem;
 }
 
-/* Staggered text reveal with overshoot */
-.team-member-name,
-.team-member-role {
-  overflow: hidden;
+.pebble-info-content {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.name-text {
-  display: inline-block;
-  animation: textRevealName 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.role-text {
-  display: inline-block;
-  animation: textRevealRole 1s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
-}
-
-@keyframes textRevealName {
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(35px) scale(0.98);
-    filter: blur(10px);
-  }
-  70% {
-    transform: translateY(-2px) scale(1.01);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0px);
-  }
-}
-
-@keyframes textRevealRole {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-    filter: blur(8px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0px);
   }
 }
 
-.team-member-name {
-  color: #ffffff;
-  font-size: clamp(2rem, 5vw, 2.85rem);
+.pebble-name {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: 700;
-  line-height: 1.15;
-  margin-bottom: 0.85rem;
-  position: relative;
-  letter-spacing: -0.025em;
+  color: #ffffff;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
-/* Refined decorative lines with stagger */
-.team-member-name::before,
-.team-member-name::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: clamp(60px, 8vw, 105px);
-  height: 2.5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(253, 103, 50, 0.7) 50%,
-    transparent 100%
-  );
-  opacity: 0;
-  border-radius: 2px;
-  box-shadow: 0 0 8px rgba(253, 103, 50, 0.4);
-}
-
-.team-member-name::before {
-  right: calc(100% + 1.8rem);
-  animation: lineExpandLeft 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
-}
-
-.team-member-name::after {
-  left: calc(100% + 1.8rem);
-  animation: lineExpandRight 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
-}
-
-@keyframes lineExpandLeft {
-  from {
-    opacity: 0;
-    transform: translateX(20px) scaleX(0);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scaleX(1);
-  }
-}
-
-@keyframes lineExpandRight {
-  from {
-    opacity: 0;
-    transform: translateX(-20px) scaleX(0);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scaleX(1);
-  }
-}
-
-.team-member-role {
-  color: rgba(255, 255, 255, 0.58);
-  font-size: clamp(0.95rem, 2.5vw, 1.18rem);
-  font-weight: 500;
+.pebble-role {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: rgba(255, 255, 255, 0.6);
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+  font-weight: 500;
 }
 
-/* ─── Progress Indicator ─────────────────────────────────────── */
-
-.carousel-progress {
-  position: absolute;
-  right: -65px;
-  top: 50%;
-  transform: translateY(-50%);
+.pebble-superpower {
   display: flex;
-  flex-direction: column;
-  gap: 14px;
-  z-index: 50;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 1rem 1.5rem;
+  background: rgba(253, 103, 50, 0.08);
+  border-radius: 50px;
+  border: 1px solid rgba(253, 103, 50, 0.15);
+  width: fit-content;
+  backdrop-filter: blur(10px);
 }
 
-.progress-step {
-  width: 3.5px;
-  height: 52px;
-  background: rgba(253, 103, 50, 0.16);
-  border-radius: 3px;
-  position: relative;
-  overflow: hidden;
-  pointer-events: none;
-
-  transition:
-    background 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+.pebble-icon {
+  font-size: 1.3rem;
+  animation: sparkle 2s ease-in-out infinite;
 }
 
-.progress-step::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(253, 103, 50, 1) 0%,
-    rgba(255, 138, 91, 0.98) 100%
-  );
-  border-radius: 3px;
-  transition: height 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 0 12px rgba(253, 103, 50, 0.5);
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+    opacity: 0.8;
+  }
 }
 
+/* ─── Pebble Dots Navigation ─────────────────────────────────── */
 
-.progress-step.active,
-.progress-step.completed {
-  background: rgba(253, 103, 50, 0.28);
-}
-
-.progress-step.active::before,
-.progress-step.completed::before {
-  height: 100%;
-}
-
-.progress-step.active {
-  box-shadow:
-    0 0 18px rgba(253, 103, 50, 0.65),
-    0 0 8px rgba(253, 103, 50, 0.85);
-}
-
-/* ─── Pagination Capsules ────────────────────────────────────── */
-
-.team-dots {
+.pebble-dots {
   display: flex;
-  justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
-  padding: 1.2rem 0;
 }
 
-.team-dot {
+.pebble-dot {
   position: relative;
-  width: 11px;
-  height: 11px;
+  width: 14px;
+  height: 14px;
+  padding: 0;
   background: transparent;
   border: none;
-  border-radius: 50%;
-  padding: 0;
-  pointer-events: none;
-
-  transition: width 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.dot-inner {
+.pebble-dot-inner {
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: inherit;
-  background: rgba(253, 103, 50, 0.28);
-
-  transition:
-    background 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 50%;
+  background: rgba(253, 103, 50, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Active capsule morph */
-.team-dot.active {
-  width: 36px;
-  border-radius: 14px;
+.pebble-dot:hover .pebble-dot-inner {
+  background: rgba(253, 103, 50, 0.5);
+  transform: scale(1.2);
 }
 
-.team-dot.active .dot-inner {
-  border-radius: 14px;
-  background: linear-gradient(
-    90deg,
-    rgba(253, 103, 50, 1) 0%,
-    rgba(255, 138, 91, 0.95) 100%
+.pebble-dot.active {
+  width: 40px;
+  border-radius: 20px;
+}
+
+.pebble-dot.active .pebble-dot-inner {
+  border-radius: 20px;
+  background: linear-gradient(90deg, #FD6732 0%, #FF8A5B 100%);
+  box-shadow: 0 4px 12px rgba(253, 103, 50, 0.4);
+}
+
+/* ─── Decorative Floating Pebbles ────────────────────────────── */
+
+.pebble-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.4;
+}
+
+.floating-pebble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(253, 103, 50, 0.15) 0%,
+    rgba(253, 103, 50, 0.05) 100%
   );
-  box-shadow:
-    0 3px 14px rgba(253, 103, 50, 0.55),
-    0 0 24px rgba(253, 103, 50, 0.35),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+  filter: blur(40px);
+}
+
+.pebble-1 {
+  width: 200px;
+  height: 200px;
+  top: 10%;
+  right: 10%;
+  animation: float1 8s ease-in-out infinite;
+}
+
+.pebble-2 {
+  width: 150px;
+  height: 150px;
+  bottom: 15%;
+  left: 5%;
+  animation: float2 10s ease-in-out infinite;
+}
+
+.pebble-3 {
+  width: 120px;
+  height: 120px;
+  top: 60%;
+  right: 20%;
+  animation: float3 12s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-30px, -40px);
+  }
+}
+
+@keyframes float2 {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(40px, 30px);
+  }
+}
+
+@keyframes float3 {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-20px, 50px);
+  }
 }
 
 /* ─── Responsive Design ──────────────────────────────────────── */
 
-@media (max-width: 1200px) {
-  .team-carousel-main-container {
-    gap: 3.5rem;
-  }
-
-  .card {
-    width: 360px;
-    height: 460px;
-    margin-left: -180px;
-    margin-top: -230px;
-    border-radius: 26px;
-  }
-
-  .carousel-progress {
-    right: -55px;
-  }
-
-  .progress-step {
-    height: 42px;
-  }
-}
-
 @media (max-width: 1024px) {
-  .team-carousel-main-container {
-    flex-direction: column;
-    gap: 2.8rem;
-    min-height: auto;
-    padding: 3rem 1.5rem;
+  .pebble-container {
+    grid-template-columns: 1fr;
+    gap: 3rem;
   }
 
-  .team-carousel-section {
-    width: 100%;
-    min-height: 520px;
+  .pebble-featured {
+    height: 500px;
   }
 
-  .team-controls-section {
-    width: 100%;
+  .pebble-info {
     padding-left: 0;
-    gap: 2.2rem;
+    align-items: center;
+    text-align: center;
   }
 
-  .team-carousel-container {
-    height: 62vh;
-    min-height: 520px;
-    max-width: 420px;
+  .pebble-superpower {
+    margin: 0 auto;
   }
 
-  .card {
-    width: 330px;
-    height: 415px;
-    margin-left: -165px;
-    margin-top: -207.5px;
-    border-radius: 24px;
+  .pebble-dots {
+    justify-content: center;
   }
 
-  .carousel-progress {
-    right: -45px;
+  .pebble-nav-prev {
+    left: 10px;
   }
 
-  .progress-step {
-    height: 36px;
+  .pebble-nav-next {
+    right: 10px;
   }
 }
 
-@media (max-width: 640px) {
-  .team-carousel-main-container {
-    padding: 2rem 1rem;
-    gap: 2rem;
+@media (max-width: 768px) {
+  .team-pebble-carousel {
+    padding: 3rem 1rem;
+    min-height: auto;
   }
 
-  .team-carousel-container {
-    height: 56vh;
-    min-height: 470px;
-    max-width: 350px;
+  .pebble-featured {
+    height: 420px;
   }
 
-  .card {
-    width: 290px;
-    height: 365px;
-    margin-left: -145px;
-    margin-top: -182.5px;
-    border-radius: 22px;
+  .pebble-nav {
+    width: 50px;
+    height: 50px;
   }
 
-  .carousel-progress {
-    right: 12px;
-    gap: 12px;
+  .pebble-name {
+    font-size: 2rem;
   }
 
-  .progress-step {
-    width: 2.5px;
-    height: 32px;
+  .pebble-role {
+    font-size: 1rem;
   }
 
-  .team-member-name::before,
-  .team-member-name::after {
-    width: 45px;
+  .pebble-superpower {
+    font-size: 1rem;
+    padding: 0.875rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pebble-featured {
+    height: 380px;
   }
 
-  .team-dots {
-    gap: 10px;
+  .pebble-card-inner {
+    border-radius: 40% 60% 50% 50% / 50% 40% 60% 50%;
   }
 
-  .team-dot {
-    width: 9px;
-    height: 9px;
+  .pebble-nav {
+    width: 44px;
+    height: 44px;
   }
 
-  .team-dot.active {
-    width: 32px;
+  .pebble-nav svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .floating-pebble {
+    display: none;
   }
 }
 
 /* ─── Accessibility ──────────────────────────────────────────── */
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -533,124 +539,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-
-  .card.center {
-    animation: none;
-  }
 }
 
-/* Focus indicators */
-.progress-step:focus-visible,
-.team-dot:focus-visible {
-  outline: 3px solid rgba(253, 103, 50, 0.85);
-  outline-offset: 5px;
-  border-radius: 4px;
-}
-
-/* High contrast */
-@media (prefers-contrast: high) {
-  .card {
-    border: 2.5px solid rgba(255, 255, 255, 0.35);
-  }
-
-  .team-member-name {
-    color: #ffffff;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-  }
-
-  .progress-step.active,
-  .team-dot.active .dot-inner {
-    background: #FD6732;
-  }
-}
-
-/* ─── Scroll Indicator ───────────────────────────────────────── */
-
-.scroll-indicator {
-  position: absolute;
-  bottom: 3rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  opacity: 0;
-  animation: scrollIndicatorFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-}
-
-@keyframes scrollIndicatorFade {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
-.scroll-indicator-line {
-  width: 2px;
-  height: 40px;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(253, 103, 50, 0.6) 50%,
-    transparent 100%
-  );
-  border-radius: 2px;
-  animation: scrollLineMove 2s ease-in-out infinite;
-}
-
-@keyframes scrollLineMove {
-  0%, 100% {
-    transform: scaleY(1) translateY(0);
-    opacity: 0.6;
-  }
-  50% {
-    transform: scaleY(1.5) translateY(5px);
-    opacity: 1;
-  }
-}
-
-.scroll-indicator-text {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-
-@media (max-width: 1024px) {
-  .scroll-indicator {
-    bottom: 2rem;
-  }
-
-  .scroll-indicator-line {
-    height: 32px;
-  }
-
-  .scroll-indicator-text {
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 640px) {
-  .team-carousel-wrapper {
-    height: 500vh;
-  }
-
-  .scroll-indicator {
-    bottom: 1.5rem;
-  }
-
-  .scroll-indicator-line {
-    height: 28px;
-  }
-
-  .scroll-indicator-text {
-    font-size: 0.75rem;
-  }
+.pebble-dot:focus-visible,
+.pebble-nav:focus-visible {
+  outline: 2px solid rgba(253, 103, 50, 0.8);
+  outline-offset: 4px;
 }

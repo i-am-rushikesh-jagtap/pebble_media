@@ -4,7 +4,7 @@
    ============================================ */
 
 .about-page {
-  background: #050505;
+  background: transparent;
   color: #ffffff;
 }
 
@@ -76,13 +76,7 @@
 /* STORY SECTION - Smooth blend from hero */
 .story-section {
   padding: 12rem 0;
-  background: linear-gradient(
-    180deg,
-    rgba(5, 5, 5, 1) 0%,
-    rgba(8, 8, 8, 1) 20%,
-    rgba(10, 10, 10, 1) 60%,
-    rgba(8, 8, 8, 1) 100%
-  );
+  background: transparent;
   position: relative;
 }
 
@@ -228,13 +222,7 @@
 .pebble-story-section {
   position: relative;
   padding: 12rem 0 14rem;
-  background: linear-gradient(
-    180deg,
-    rgba(8, 8, 8, 1) 0%,
-    rgba(10, 10, 10, 1) 20%,
-    rgba(12, 12, 12, 1) 50%,
-    rgba(8, 8, 8, 1) 100%
-  );
+  background: transparent;
   overflow: hidden;
 }
 
@@ -345,13 +333,7 @@
 /* VALUES SECTION - Smooth blend */
 .values-section {
   padding: 12rem 0 14rem;
-  background: linear-gradient(
-    180deg,
-    rgba(8, 8, 8, 1) 0%,
-    rgba(6, 6, 6, 1) 30%,
-    rgba(5, 5, 5, 1) 60%,
-    #050505 100%
-  );
+  background: transparent;
   position: relative;
 }
 
@@ -421,13 +403,7 @@
 /* TEAM SECTION - Gradual blend */
 .team-section {
   padding: 12rem 0 14rem;
-  background: linear-gradient(
-    180deg,
-    #050505 0%,
-    rgba(8, 8, 8, 1) 30%,
-    rgba(10, 10, 10, 1) 70%,
-    rgba(8, 8, 8, 1) 100%
-  );
+  background: transparent;
   position: relative;
 }
 
@@ -553,13 +529,7 @@
 /* CLIENTS SHOWCASE - Smooth continuation */
 .clients-showcase {
   padding: 12rem 0 14rem;
-  background: linear-gradient(
-    180deg,
-    rgba(8, 8, 8, 1) 0%,
-    rgba(6, 6, 6, 1) 30%,
-    rgba(5, 5, 5, 1) 60%,
-    #050505 100%
-  );
+  background: transparent;
   position: relative;
 }
 
@@ -629,13 +599,7 @@
 /* ABOUT CTA - Final blend */
 .about-cta {
   padding: 12rem 0 16rem;
-  background: linear-gradient(
-    180deg,
-    #050505 0%,
-    rgba(8, 8, 8, 1) 30%,
-    rgba(10, 10, 10, 1) 60%,
-    rgba(12, 12, 12, 1) 100%
-  );
+  background: transparent;
   text-align: center;
   position: relative;
 }

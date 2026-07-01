@@ -1,0 +1,546 @@
+/* ═══════════════════════════════════════════════════════════════
+   THE SINGLE PERFECT RIPPLE
+   One Pebble. Infinite Ripples.
+   Fully responsive signature navigation
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Navigation Bar ─── */
+.ripple-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  padding: 1.5rem 0;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ripple-nav.scrolled {
+  padding: 1rem 0;
+  background: linear-gradient(
+    180deg,
+    rgba(23, 23, 23, 0.4) 0%,
+    rgba(23, 23, 23, 0.2) 100%
+  );
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.ripple-nav-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+
+/* ─── Logo ─── */
+.ripple-nav-logo {
+  display: block;
+  position: relative;
+  z-index: 10;
+  transition: filter 0.3s ease;
+}
+
+.ripple-nav-logo img {
+  display: block;
+  height: auto;
+  max-height: 40px;
+  width: auto;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+}
+
+.ripple-nav-logo:hover img {
+  filter: drop-shadow(0 6px 20px rgba(253, 103, 50, 0.3));
+}
+
+/* ─── The Pebble Trigger ─── */
+.pebble-trigger {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  touch-action: manipulation;
+}
+
+.pebble-stone {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FD6732 0%, #ff5722 100%);
+  box-shadow:
+    0 2px 8px rgba(253, 103, 50, 0.4),
+    0 4px 16px rgba(253, 103, 50, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.pebble-trigger:hover .pebble-stone {
+  box-shadow:
+    0 4px 16px rgba(253, 103, 50, 0.6),
+    0 8px 32px rgba(253, 103, 50, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.pebble-glow {
+  position: absolute;
+  inset: -60%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(253, 103, 50, 0.6) 0%,
+    rgba(253, 103, 50, 0.3) 40%,
+    transparent 70%
+  );
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Backdrop ─── */
+.ripple-backdrop {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 9998;
+}
+
+/* ─── Ripple Manifold (Desktop: from pebble, Mobile: centered) ─── */
+.ripple-manifold {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+
+  /* Desktop: position from top-right pebble */
+  top: 1.5rem;
+  right: 2rem;
+  transform-origin: center center;
+}
+
+.ripple-manifold.mobile-center {
+  /* Mobile: center on screen */
+  top: 50%;
+  left: 50%;
+  right: auto;
+  transform: translate(-50%, -50%);
+}
+
+/* ─── The Perfect Ripple ─── */
+.perfect-ripple {
+  position: absolute;
+  border: 2px solid rgba(253, 103, 50, 0.4);
+  border-radius: 50%;
+  box-shadow:
+    0 0 60px rgba(253, 103, 50, 0.3),
+    inset 0 0 60px rgba(253, 103, 50, 0.1);
+  pointer-events: none;
+
+  /* Desktop positioning */
+  top: 22px;
+  right: 22px;
+  width: 1200px;
+  height: 1200px;
+  transform: translate(50%, -50%);
+}
+
+.ripple-manifold.mobile-center .perfect-ripple {
+  /* Mobile: centered */
+  top: 0;
+  left: 0;
+  right: auto;
+  width: 700px;
+  height: 700px;
+  transform: translate(-50%, -50%);
+}
+
+/* ─── Navigation Items ─── */
+.nav-item-wrapper {
+  position: absolute;
+  pointer-events: auto;
+
+  /* Desktop: from pebble position */
+  top: 22px;
+  right: 22px;
+}
+
+.ripple-manifold.mobile-center .nav-item-wrapper {
+  /* Mobile: from center */
+  top: 0;
+  left: 0;
+  right: auto;
+}
+
+.nav-item {
+  display: block;
+  text-decoration: none;
+  transform: translate(50%, -50%);
+}
+
+.ripple-manifold.mobile-center .nav-item {
+  transform: translate(-50%, -50%);
+}
+
+.nav-item-surface {
+  position: relative;
+  padding: 0.875rem 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.nav-item-surface::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 50px;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.nav-item-surface:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  border-color: rgba(253, 103, 50, 0.4);
+  box-shadow:
+    0 12px 48px rgba(253, 103, 50, 0.3),
+    0 8px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.nav-item-surface:hover::before {
+  opacity: 1;
+}
+
+.nav-item.active .nav-item-surface {
+  background: linear-gradient(
+    135deg,
+    rgba(253, 103, 50, 0.25) 0%,
+    rgba(253, 103, 50, 0.15) 100%
+  );
+  border-color: rgba(253, 103, 50, 0.6);
+  box-shadow:
+    0 12px 48px rgba(253, 103, 50, 0.5),
+    0 8px 32px rgba(253, 103, 50, 0.3),
+    0 0 80px rgba(253, 103, 50, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Active Indicator ─── */
+.active-indicator {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(253, 103, 50, 0.25) 0%,
+    rgba(253, 103, 50, 0.1) 50%,
+    transparent 70%
+  );
+  filter: blur(16px);
+  pointer-events: none;
+  animation: activeGlow 3s ease-in-out infinite;
+}
+
+@keyframes activeGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+/* ─── Nav Item Label ─── */
+.nav-item-label {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.5),
+    0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-item.active .nav-item-label {
+  color: #ffffff;
+  text-shadow:
+    0 2px 8px rgba(253, 103, 50, 0.6),
+    0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* ─── Page Transition Ripple ─── */
+.page-ripple-transition {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(253, 103, 50, 0.9) 0%,
+    rgba(253, 103, 50, 0.6) 30%,
+    rgba(253, 103, 50, 0.3) 50%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 99999;
+  box-shadow: 0 0 80px rgba(253, 103, 50, 0.8);
+  animation: pageRipple 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageRipple {
+  0% {
+    width: 40px;
+    height: 40px;
+    opacity: 1;
+  }
+  100% {
+    width: 300vmax;
+    height: 300vmax;
+    opacity: 0;
+  }
+}
+
+/* ─── Responsive Design ─── */
+
+/* Large Desktop */
+@media (min-width: 1280px) {
+  .ripple-nav-container {
+    padding: 0 3rem;
+  }
+
+  .ripple-manifold {
+    right: 3rem;
+  }
+}
+
+/* Tablet & Medium Screens */
+@media (max-width: 1024px) {
+  .ripple-nav-container {
+    padding: 0 2rem;
+  }
+
+  .perfect-ripple {
+    width: 1000px;
+    height: 1000px;
+  }
+
+  .nav-item-surface {
+    padding: 0.75rem 1.75rem;
+  }
+
+  .nav-item-label {
+    font-size: 0.875rem;
+  }
+}
+
+/* Mobile & Small Tablets */
+@media (max-width: 768px) {
+  .ripple-nav {
+    padding: 1rem 0;
+  }
+
+  .ripple-nav.scrolled {
+    padding: 0.75rem 0;
+  }
+
+  .ripple-nav-container {
+    padding: 0 1.5rem;
+  }
+
+  .ripple-nav-logo img {
+    max-height: 35px;
+  }
+
+  .pebble-trigger {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  /* Mobile centered ripple */
+  .ripple-manifold.mobile-center .perfect-ripple {
+    width: 550px;
+    height: 550px;
+  }
+
+  .nav-item-surface {
+    padding: 0.625rem 1.5rem;
+  }
+
+  .nav-item-label {
+    font-size: 0.8125rem;
+  }
+
+  /* Reduce blur for performance on mobile */
+  .ripple-backdrop {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .nav-item-surface {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 640px) {
+  .ripple-nav-container {
+    padding: 0 1rem;
+  }
+
+  .ripple-manifold.mobile-center .perfect-ripple {
+    width: 450px;
+    height: 450px;
+  }
+
+  .nav-item-surface {
+    padding: 0.5rem 1.25rem;
+  }
+
+  .nav-item-label {
+    font-size: 0.75rem;
+  }
+}
+
+/* Extra Small Screens */
+@media (max-width: 480px) {
+  .ripple-manifold.mobile-center .perfect-ripple {
+    width: 380px;
+    height: 380px;
+  }
+
+  .nav-item-surface {
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* ─── iOS Specific Fixes ─── */
+@supports (-webkit-touch-callout: none) {
+  .nav-item-surface {
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+  }
+
+  @media (max-width: 768px) {
+    .nav-item-surface {
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+  }
+}
+
+/* ─── Accessibility ─── */
+@media (prefers-reduced-motion: reduce) {
+  .ripple-nav,
+  .perfect-ripple,
+  .nav-item-surface,
+  .page-ripple-transition,
+  .active-indicator {
+    animation: none !important;
+    transition-duration: 0.1s !important;
+  }
+
+  .pebble-glow {
+    display: none;
+  }
+
+  .nav-item-surface {
+    transform: none !important;
+  }
+}
+
+/* ─── Focus Styles ─── */
+.pebble-trigger:focus-visible {
+  outline: 2px solid rgba(253, 103, 50, 0.8);
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+.nav-item:focus-visible .nav-item-surface {
+  outline: 2px solid rgba(253, 103, 50, 0.8);
+  outline-offset: 4px;
+  box-shadow:
+    0 12px 48px rgba(253, 103, 50, 0.4),
+    0 8px 24px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Performance Optimizations ─── */
+.perfect-ripple,
+.nav-item-surface,
+.pebble-glow,
+.active-indicator {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Force GPU acceleration */
+.nav-item-surface,
+.perfect-ripple {
+  transform: translate3d(0, 0, 0);
+}
+
+/* Prevent layout shift */
+.ripple-manifold {
+  contain: layout style paint;
+}
