@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { ensureGsapPlugins, gsap, ScrollTrigger } from "@/lib/gsap";
 import { HERO_PIN_SCROLL_END, HERO_PIN_SCRUB } from "@/lib/hero-sequence";
+import { markHeroReady } from "@/lib/app-ready";
 
 interface ImageSequenceCanvasProps {
   frameCount: number;
@@ -86,6 +87,7 @@ export default function ImageSequenceCanvas({
         imagesRef.current[0] = first;
         setFirstFrameReady(true);
         render(0);
+        markHeroReady();
 
         const schedule = (cb: () => void) => {
           if (typeof window.requestIdleCallback === "function") {
@@ -113,7 +115,10 @@ export default function ImageSequenceCanvas({
           render(currentFrameRef.current);
         }
       } catch {
-        if (!cancelled) setFirstFrameReady(true);
+        if (!cancelled) {
+          setFirstFrameReady(true);
+          markHeroReady();
+        }
       }
     };
 

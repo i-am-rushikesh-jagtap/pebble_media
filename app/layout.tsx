@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Inter, Cinzel, Montserrat } from "next/font/google";
 import ClientProviders from "@/components/ClientProviders";
 import LiquidGlassNav from "@/components/LiquidGlassNav";
+import AppPreloader from "@/components/AppPreloader";
 import "./globals.css";
+import "./preloader.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,8 +39,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="app-preloading">
+      <head>
+        <link rel="preload" href="/sequence/img_00001.jpg" as="image" fetchPriority="high" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('app-preloading');",
+          }}
+        />
+      </head>
       <body className={`${inter.variable} ${cinzel.variable} ${montserrat.variable}`} suppressHydrationWarning>
+        <AppPreloader />
         <LiquidGlassNav />
         <ClientProviders>{children}</ClientProviders>
       </body>
