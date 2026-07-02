@@ -1,13 +1,22 @@
 export const HERO_READY_EVENT = "pebble:hero-ready";
+export const PRELOADER_DONE_EVENT = "pebble:preloader-done";
 
-const MIN_PRELOADER_MS = 650;
-const MAX_PRELOADER_MS = 4800;
+const MIN_PRELOADER_MS = 900;
+const MAX_PRELOADER_MS = 5200;
 
-type WindowWithPebble = Window & { __pebbleHeroReady?: boolean };
+type WindowWithPebble = Window & {
+  __pebbleHeroReady?: boolean;
+  __pebblePreloaderDone?: boolean;
+};
 
 export function isHeroReady(): boolean {
   if (typeof window === "undefined") return false;
   return Boolean((window as WindowWithPebble).__pebbleHeroReady);
+}
+
+export function isPreloaderDone(): boolean {
+  if (typeof window === "undefined") return false;
+  return Boolean((window as WindowWithPebble).__pebblePreloaderDone);
 }
 
 export function markHeroReady(): void {
@@ -16,6 +25,14 @@ export function markHeroReady(): void {
   if (win.__pebbleHeroReady) return;
   win.__pebbleHeroReady = true;
   window.dispatchEvent(new CustomEvent(HERO_READY_EVENT));
+}
+
+export function dispatchPreloaderDone(): void {
+  if (typeof window === "undefined") return;
+  const win = window as WindowWithPebble;
+  if (win.__pebblePreloaderDone) return;
+  win.__pebblePreloaderDone = true;
+  window.dispatchEvent(new CustomEvent(PRELOADER_DONE_EVENT));
 }
 
 function waitForWindowLoad(): Promise<void> {
@@ -61,4 +78,8 @@ export async function waitForAppReady(needsHeroFrame: boolean): Promise<void> {
 
 export function setPreloading(active: boolean): void {
   document.documentElement.classList.toggle("app-preloading", active);
+}
+
+export function getMaxPreloaderMs(): number {
+  return MAX_PRELOADER_MS;
 }

@@ -3,10 +3,11 @@
 import { useEffect, useRef } from "react";
 import { ensureGsapPlugins, gsap } from "@/lib/gsap";
 import { HERO_PIN_SCROLL_END, HERO_PIN_SCRUB } from "@/lib/hero-sequence";
-import { HERO_READY_EVENT, isHeroReady } from "@/lib/app-ready";
+import { HERO_READY_EVENT, isHeroReady, PRELOADER_DONE_EVENT, isPreloaderDone } from "@/lib/app-ready";
 
 export default function HomeHeroCopy() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const entranceRan = useRef(false);
 
   useEffect(() => {
     ensureGsapPlugins();
@@ -131,13 +132,23 @@ export default function HomeHeroCopy() {
       return () => ctx.revert();
     };
 
-    if (isHeroReady()) {
-      return runEntrance();
-    }
+    const tryEntrance = () => {
+      if (entranceRan.current || !isPreloaderDone() || !isHeroReady()) return;
+      entranceRan.current = true;
+      runEntrance();
+    };
 
-    const onHeroReady = () => runEntrance();
-    window.addEventListener(HERO_READY_EVENT, onHeroReady, { once: true });
-    return () => window.removeEventListener(HERO_READY_EVENT, onHeroReady);
+    tryEntrance();
+
+    const onPreloaderDone = () => tryEntrance();
+    const onHeroReady = () => tryEntrance();
+    window.addEventListener(PRELOADER_DONE_EVENT, onPreloaderDone);
+    window.addEventListener(HERO_READY_EVENT, onHeroReady);
+
+    return () => {
+      window.removeEventListener(PRELOADER_DONE_EVENT, onPreloaderDone);
+      window.removeEventListener(HERO_READY_EVENT, onHeroReady);
+    };
   }, []);
 
   return (
