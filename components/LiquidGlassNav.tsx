@@ -391,7 +391,7 @@ export default function LiquidGlassNav() {
                 <motion.div className="lg-menu__footer" variants={menuItemVariants}>
                   <p className="lg-menu__tagline">Create. Connect. Convert.</p>
                   <div className="lg-menu__contact">
-                    <a href="mailto:hello@pebblemedia.in">hello@pebblemedia.in</a>
+                    <a href="mailto:contact@pebblemedia.in">contact@pebblemedia.in</a>
                     <span aria-hidden="true">·</span>
                     <a
                       href="https://instagram.com/pebblemedia"

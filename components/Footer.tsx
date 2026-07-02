@@ -43,7 +43,7 @@ export default function Footer() {
             <h4 className="footer-title">Get in Touch</h4>
             <ul className="footer-contact">
               <li>
-                <a href="mailto:hello@pebblemedia.in">hello@pebblemedia.in</a>
+                <a href="mailto:contact@pebblemedia.in">contact@pebblemedia.in</a>
               </li>
             </ul>
             <div className="footer-social">
